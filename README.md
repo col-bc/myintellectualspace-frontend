@@ -26,4 +26,3 @@ npm run lint
 - Tailwindcss with Flowbite (plugin)
 - Pinia & pinia-plugin-persistedstate
 - Vue Router
-- 

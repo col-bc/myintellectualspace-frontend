@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useStore } from '@/store'
 
 const routes = [
   //Landing Page
@@ -13,8 +14,25 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import('@/views/Auth/RegisterView.vue')
+  },
+  //Login Page
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Auth/LoginView.vue')
     // TODO: before each, redirect if logged in
-  }
+  },
+  //Logout
+  {
+    path: '/logout',
+    name: 'logout',
+    beforeEnter: (to, from, next) => {
+      // Clear the token and expiration from the store
+      let store = useStore();
+      store.logout();
+      next({ name: 'home' });
+    },
+  },
 ]
 
 const router = createRouter({

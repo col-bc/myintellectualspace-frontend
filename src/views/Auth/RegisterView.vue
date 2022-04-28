@@ -22,6 +22,7 @@ export default {
       shown: false,
       message: "",
     });
+    const registrationSuccessful = ref(false);
 
     function scrollToTop() {
       window.scrollTo({
@@ -31,24 +32,16 @@ export default {
     }
 
     const handleFormSubmit = () => {
-      // validate form
+      // validate form and show alert if invalid otherwise post to server
+
+      // Check if passwords are the same
       if (formModel.value.password !== formModel.value.passwordConfirmation) {
         alertModel.value.message = "Passwords do not match";
         alertModel.value.shown = true;
         scrollToTop();
         return;
       }
-      if (
-        formModel.value.password.length < 8 ||
-        formModel.value.password.match("[0-9]").length <= 0 ||
-        formModel.value.password.match("[A-Z]").length <= 0
-      ) {
-        alertModel.value.message =
-          "Password must be at least 8 characters long and contain at least one number and one capital letter";
-        alertModel.value.shown = true;
-        scrollToTop();
-        return;
-      }
+      // Check if any fields are empty
       if (
         !formModel.value.firstName ||
         !formModel.value.lastName ||
@@ -61,19 +54,35 @@ export default {
         scrollToTop();
         return;
       }
+      // Check if password is compliant
+      if (
+        formModel.value.password.length < 8 ||
+        formModel.value.password.match("[0-9]").length <= 0 ||
+        formModel.value.password.match("[A-Z]").length <= 0
+      ) {
+        alertModel.value.message =
+          "Password must be at least 8 characters long and contain at least one number and one capital letter";
+        alertModel.value.shown = true;
+        scrollToTop();
+        return;
+      }
+      // Check if education level is selected
       if (formModel.value.educationLevel === "") {
         alertModel.value.message = "Please select an education level";
         alertModel.value.shown = true;
         scrollToTop();
         return;
       }
+      // Check if profile type is selected
       if (formModel.value.profileType === "") {
         alertModel.value.message = "Please select a profile type";
         alertModel.value.shown = true;
         scrollToTop();
         return;
       }
-      if (!formModel.value.terms) {
+      //Check if terms are accepted
+      console.log(formModel.value.terms);
+      if (formModel.value.terms === false) {
         alertModel.value.message = "You must agree to the terms and conditions";
         alertModel.value.shown = true;
         scrollToTop();
@@ -95,13 +104,16 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          alertModel.value.message = "Successfully registered";
-          alertModel.value.shown = true;
+          if (response.status === 201) {
+            registrationSuccessful.value = true;
+            scrollToTop();
+          }
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, error.response);
           alertModel.value.message = "Error registering";
           alertModel.value.shown = true;
+          scrollToTop();
         });
     };
 
@@ -109,6 +121,7 @@ export default {
       formModel,
       alertModel,
       handleFormSubmit,
+      registrationSuccessful,
     };
   },
 };
@@ -120,6 +133,7 @@ export default {
 
     <form
       @submit.prevent="handleFormSubmit()"
+      v-show="!registrationSuccessful"
       class="max-w-xl mx-auto px-4 py-6 mt-8 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
     >
       <div>
@@ -172,7 +186,7 @@ export default {
           >Your last name</label
         >
         <input
-          type="email"
+          type="text"
           v-model="formModel.lastName"
           class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           placeholder="Baggins"
@@ -266,7 +280,7 @@ export default {
           <input
             id="link-checkbox"
             type="checkbox"
-            value=""
+            v-model="formModel.terms"
             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
           />
           <label
@@ -291,6 +305,49 @@ export default {
           Create my account
         </button>
       </div>
+      <div>
+        <p class="text-center">
+          Already have an account?
+          <button
+            @click="$router.push('/login')"
+            class="text-blue-700 font-medium text-sm hover:underline"
+          >
+            Login here</button
+          >.
+        </p>
+      </div>
     </form>
+
+    <!-- Success -->
+    <div
+      v-show="registrationSuccessful"
+      class="max-w-xl mx-auto px-4 py-6 mt-8 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
+    >
+      <h1 class="text-4xl font-bold text-center text-gray-900">
+        Registration successful!
+      </h1>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-52 text-green-500 p-2 bg-green-200 mx-auto rounded-full"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <p class="text-center text-gray-900">
+        You can now log in with your email and password.
+      </p>
+      <button
+        type="button"
+        @click="$router.push('/login')"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        Login
+      </button>
+    </div>
   </div>
 </template>
