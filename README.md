@@ -1,25 +1,23 @@
 # myintellectualspace-frontend
 
-## Project setup
-```
-npm install
-```
+![Landing Page](https://i.imgur.com/xP2jLfr.png)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This is an simple vuejs application with register and login features. 
+[See all images](https://imgur.com/a/docTc2J)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Dependencies
+- Python 3.9
+- NPM
 
-### Lints and fixes files
-```
-npm run lint
-```
+## How to run the application
+Both the frontend and backend repositories are required to run this application properly. Follow the instructions to get the frontend server running. 
 
+1. Install the dependencies
+2. Clone this repository
+3. ```cd ~/Downloads/myintellectualspace-frontend```
+4. ```npm install```
+5. ``` npm run serve``[
+6. Ensure the backend server is running and then open [http://localhost:8080/](http://localhost:8080/) in your browser.
 ### Technology
 - Javascript
 - Vuejs
