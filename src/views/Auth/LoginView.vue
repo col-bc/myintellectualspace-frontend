@@ -47,7 +47,7 @@ export default {
         password_hash: formModel.value.password,
       };
       axios
-        .post("http://localhost:5000/api/user/login", payload, {
+        .post("http://localhost:5000/api/auth/login", payload, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -86,7 +86,7 @@ export default {
     <form
       v-show="!loginSuccessful"
       @submit.prevent="handleFormSubmit()"
-      class="max-w-xl mx-auto px-4 py-6 mt-8 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
+      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
     >
       <div>
         <h1 class="text-3xl font-bold text-slate-900 text-center">
