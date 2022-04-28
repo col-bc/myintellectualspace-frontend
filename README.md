@@ -16,7 +16,7 @@ Both the frontend and backend repositories are required to run this application 
 2. Clone this repository
 3. ```cd ~/Downloads/myintellectualspace-frontend```
 4. ```npm install```
-5. ``` npm run serve``[
+5. ``` npm run serve```
 6. Ensure the backend server is running and then open [http://localhost:8080/](http://localhost:8080/) in your browser.
 ### Technology
 - Javascript
