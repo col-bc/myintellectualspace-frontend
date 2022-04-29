@@ -1,7 +1,8 @@
 <script>
 import NavbarComponent from "@/components/NavbarComponent.vue";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useStore } from "@/store";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
 export default {
@@ -10,13 +11,7 @@ export default {
 
   setup() {
     const store = useStore();
-    const loginSuccessful = ref(false);
-    onMounted(() => {
-
-      if (store.isLoggedIn) {
-        loginSuccessful.value = true;
-      }
-    });
+    const router = useRouter();
 
     const formModel = ref({
       email: "",
@@ -56,9 +51,7 @@ export default {
           if (response.status === 200) {
             console.log(response.data);
             store.$patch("token", response.data.token);
-            alertModel.value.message = "Login successful";
-            alertModel.value.shown = true;
-            loginSuccessful.value = true;
+            router.push({ name: "profile" });
             scrollToTop();
           }
         })
@@ -73,7 +66,6 @@ export default {
       formModel,
       alertModel,
       handleFormSubmit,
-      loginSuccessful,
     };
   },
 };
@@ -84,7 +76,6 @@ export default {
     <NavbarComponent />
 
     <form
-      v-show="!loginSuccessful"
       @submit.prevent="handleFormSubmit()"
       class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
     >
@@ -180,25 +171,5 @@ export default {
         </p>
       </div>
     </form>
-
-    <div
-      v-show="loginSuccessful"
-      class="max-w-xl mx-auto px-4 py-6 mt-8 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
-    >
-      <h1 class="text-3xl font-bold text-slate-900 text-center">
-        Login successful
-      </h1>
-      <p class="text-center">
-        Please play with the register and login process if you find any bugs add
-        them on the issues tab on github and I'll start troubleshooting.
-      </p>
-      <img src="@/assets/icons/construction.svg" class="mx-auto w-64" />
-      <button
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center w-64 mx-auto"
-        @click="$router.push('/logout')"
-      >
-        Logout
-      </button>
-    </div>
   </div>
 </template>
