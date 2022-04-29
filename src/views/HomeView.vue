@@ -19,7 +19,7 @@ export default {
       <div class="flex flex-col md:flex-row items-center max-w-screen">
         <div>
           <h1
-            class="text-6xl font-black text-slate-900 mb-8 text-center md:text-left"
+            class="text-4xl md:text-6xl font-black text-slate-900 mb-8 text-center md:text-left"
           >
             Welcome to your Intellectual Space
           </h1>
