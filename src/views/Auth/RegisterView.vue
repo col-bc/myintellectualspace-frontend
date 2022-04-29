@@ -81,7 +81,6 @@ export default {
         return;
       }
       //Check if terms are accepted
-      console.log(formModel.value.terms);
       if (formModel.value.terms === false) {
         alertModel.value.message = "You must agree to the terms and conditions";
         alertModel.value.shown = true;
@@ -92,7 +91,7 @@ export default {
         first_name: formModel.value.firstName,
         last_name: formModel.value.lastName,
         email: formModel.value.email,
-        password_hash: formModel.value.password,
+        password: formModel.value.password,
         education_level: formModel.value.educationLevel,
         profile_type: formModel.value.profileType,
       };
@@ -111,6 +110,11 @@ export default {
         })
         .catch((error) => {
           console.log(error, error.response);
+          if (error.response.status === 400) {
+            alertModel.value.message = error.response.data.message;
+            alertModel.value.shown = true;
+            scrollToTop();
+          }
           alertModel.value.message = "Error registering";
           alertModel.value.shown = true;
           scrollToTop();
@@ -134,7 +138,7 @@ export default {
     <form
       @submit.prevent="handleFormSubmit()"
       v-show="!registrationSuccessful"
-      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
+      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-slate-200 flex flex-col gap-y-6"
     >
       <div>
         <h1 class="text-3xl font-bold text-slate-900 text-center pb-2">

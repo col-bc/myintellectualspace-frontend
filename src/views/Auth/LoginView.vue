@@ -77,10 +77,10 @@ export default {
 
     <form
       @submit.prevent="handleFormSubmit()"
-      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-lg shadow-sm border bg-white border-slate-300 flex flex-col gap-y-6"
+      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-xl shadow-sm border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
-        <h1 class="text-3xl font-bold text-slate-900 text-center">
+        <h1 class="text-3xl font-bold text-gray-900 text-center">
           Login to Your Intellectual Space
         </h1>
       </div>
@@ -110,13 +110,13 @@ export default {
 
       <!-- Email -->
       <div>
-        <label for="email" class="block mb-2 text-sm font-medium text-slate-900"
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900"
           >Your email</label
         >
         <input
           type="email"
           v-model="formModel.email"
-          class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           placeholder="burglar@thefellowship.com"
         />
       </div>
@@ -124,13 +124,13 @@ export default {
       <div>
         <label
           for="password"
-          class="block mb-2 text-sm font-medium text-slate-900"
+          class="block mb-2 text-sm font-medium text-gray-900"
           >Your password</label
         >
         <input
           type="password"
           v-model="formModel.password"
-          class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           placeholder="••••••••"
         />
       </div>
