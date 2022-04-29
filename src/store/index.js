@@ -5,20 +5,45 @@ export const useStore = defineStore('main', {
 
   state: () => ({
     userId: null,
+    firstName: null,
+    lastName: null,
+    occupation: null,
     email: null,
     token: null,
-    tokenExpiration: null,
+    bio: null,
+    website: null,
+    interests: null,
+    privacy: null,
+    educationLevel: null,
+    organizationName: null,
+    yearsInBusiness: null,
+    accountType: null,
+    updatedAt: null,
+    // posts
+    // comments
+    // friends
+    tasks: [],
   }),
   getters: {
     isLoggedIn: state => {
-      // Returns true if the token is valid and has not expired
-      // return !!state.token && new Date(state.tokenExpiration) > new Date()
-      return state.token != null
+      return state.token != null && state.useId != null
     },
-    userId: state => state.userId,
-    email: state => state.email,
-    token: state => state.token,
-    tokenExpiration: state => state.tokenExpiration,
+    getUserId: state => state.userId,
+    getFirstName: state => state.firstName,
+    getLastName: state => state.lastName,
+    getOccupation: state => state.occupation,
+    getEmail: state => state.email,
+    getToken: state => state.token,
+    getBio: state => state.bio,
+    getWebsite: state => state.website,
+    getInterests: state => state.interests,
+    getPrivacy: state => state.privacy,
+    getEducationLevel: state => state.educationLevel,
+    getOrganizationName: state => state.organizationName,
+    getYearsInBusiness: state => state.yearsInBusiness,
+    getAccountType: state => state.accountType,
+    getUpdatedAt: state => state.updatedAt,
+    getTasks: state => state.tasks,
   },
   actions: {
     logout: () => {
@@ -26,13 +51,26 @@ export const useStore = defineStore('main', {
       this.token = null
       this.tokenExpiration = null
     },
-    setUser: (state, userId, email, token, tokenExpiration) => {
-      // Set user's data to the store 
-      state.userId = userId
-      state.email = email
-      state.token = token
-      state.tokenExpiration = tokenExpiration
+    setToken: (token) => this.token = token,
+    setUserData: (userData) => {
+      this.userId = userData.userId
+      this.firstName = userData.firstName
+      this.lastName = userData.lastName
+      this.occupation = userData.occupation
+      this.email = userData.email
+      this.token = userData.token
+      this.bio = userData.bio
+      this.website = userData.website
+      this.interests = userData.interests
+      this.privacy = userData.privacy
+      this.educationLevel = userData.educationLevel
+      this.organizationName = userData.organizationName
+      this.yearsInBusiness = userData.yearsInBusiness
+      this.accountType = userData.accountType
+      this.updatedAt = userData.updatedAt
     },
-    setToken: (state, token) => state.token = token,
+    completeTas: (taskName) => {
+      this.tasks.push(taskName)
+    },
   }
 })

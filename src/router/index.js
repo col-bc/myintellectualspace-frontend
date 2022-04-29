@@ -9,6 +9,24 @@ const routes = [
     component: () => import('@/views/HomeView.vue')
   },
 
+  //ProfileHome
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/Profile/ProfileHomeView.vue'),
+    beforeEnter: (to, from, next) => {
+      let store = useStore()
+      if (store.isLoggedIn) {
+        return next()
+      }
+      // return next with a redirect to the login page
+      return next({
+        name: 'login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  },
+
   //Register Page
   {
     path: '/register',
