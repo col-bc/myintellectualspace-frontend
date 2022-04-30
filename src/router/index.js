@@ -19,11 +19,7 @@ const routes = [
       if (store.isLoggedIn) {
         return next()
       }
-      // return next with a redirect to the login page
-      return next({
-        name: 'login',
-        query: { redirect: to.fullPath }
-      })
+      return next({ name: 'login' })
     }
   },
 
@@ -37,8 +33,14 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/Auth/LoginView.vue')
-    // TODO: before each, redirect if logged in
+    component: () => import('@/views/Auth/LoginView.vue'),
+    beforeEnter: (to, from, next) => {
+      let store = useStore()
+      if (store.isLoggedIn) {
+        return next({ name: 'profile' })
+      }
+      return next()
+    }
   },
   //Logout
   {
@@ -47,8 +49,8 @@ const routes = [
     beforeEnter: (to, from, next) => {
       // Clear the token and expiration from the store
       let store = useStore();
-      store.logout();
-      next({ name: 'home' });
+      store.$reset();
+      next({ name: 'home', query: { logout: true } })
     },
   },
 ]

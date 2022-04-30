@@ -1,11 +1,17 @@
 <script>
 import NavbarComponent from "@/components/NavbarComponent.vue";
+import { useRoute } from "vue-router";
 
 export default {
   name: "HomeView",
   components: { NavbarComponent },
   setup() {
-    return {};
+    const route = useRoute();
+    const isLogout = route.query.logout;
+
+    return {
+      isLogout,
+    };
   },
 };
 </script>
@@ -13,6 +19,34 @@ export default {
 <template>
   <div class="min-h-screen flex-col">
     <NavbarComponent />
+    <div
+      v-show="isLogout"
+      class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 flex items-center"
+      role="alert"
+    >
+      <div class="flex-1">
+        <span class="inline-flex flex-1 font-bold">Logged out successfully</span
+        >. See you next time!
+      </div>
+      <button
+        type="button"
+        @click="isLogout = false"
+        class="bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8"
+      >
+        <svg
+          class="w-5 h-5 ml-auto"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </button>
+    </div>
 
     <div class="flex items-center flex-1 p-4 mx-auto mt-8">
       <!-- Landing -->
@@ -60,6 +94,7 @@ export default {
             </button>
             <button
               type="button"
+              @click="$router.push({ name: 'profile' })"
               class="px-6 py-3.5 mr-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-slate-200 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200"
             >
               See my profile

@@ -39,7 +39,7 @@ export default {
       }
       const payload = {
         email: formModel.value.email,
-        password_hash: formModel.value.password,
+        password: formModel.value.password,
       };
       axios
         .post("http://localhost:5000/api/auth/login", payload, {
@@ -48,14 +48,17 @@ export default {
           },
         })
         .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            store.$patch("token", response.data.token);
+          if (response.data.success) {
+            console.log(response.data.token);
+            store.$patch((state) => {
+              state.token = response.data.token;
+            });
             router.push({ name: "profile" });
-            scrollToTop();
+            return;
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           alertModel.value.message = "Login failed. Please try again";
           alertModel.value.shown = true;
           formModel.value.password = "";
@@ -77,10 +80,15 @@ export default {
 
     <form
       @submit.prevent="handleFormSubmit()"
-      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-xl shadow-sm border bg-white border-gray-200 flex flex-col gap-y-6"
+      class="max-w-lg mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
-        <h1 class="text-3xl font-bold text-gray-900 text-center">
+        <img
+          src="@/assets/images/login.svg"
+          alt="Register"
+          class="w-full max-h-64 mx-auto mb-6"
+        />
+        <h1 class="text-3xl text-center font-bold text-slate-900 pb-12">
           Login to Your Intellectual Space
         </h1>
       </div>

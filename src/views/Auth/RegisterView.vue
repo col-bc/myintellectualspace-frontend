@@ -138,14 +138,16 @@ export default {
     <form
       @submit.prevent="handleFormSubmit()"
       v-show="!registrationSuccessful"
-      class="max-w-xl mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-slate-200 flex flex-col gap-y-6"
+      class="max-w-lg mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
-        <h1 class="text-3xl font-bold text-slate-900 text-center pb-2">
-          Welcome to your Intellectual Space
+        <img src="@/assets/images/register.svg" alt="Register" class="w-full max-h-64 mx-auto mb-6" />
+        <h1 class="text-3xl text-center font-bold text-slate-900 pb-2">
+          We're glad to have you at Intellectual Space
         </h1>
-        <p class="text-slate-600 text-center pb-6">
-          Let's get your account set up. Please answer all the questions below
+        <p class="text-slate-600 text-center pb-12">
+          We meed some information about you to create your account. Please fill
+          in the form below to get started.
         </p>
       </div>
 

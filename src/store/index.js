@@ -1,32 +1,62 @@
 import { defineStore } from 'pinia'
+// import axios from 'axios'
 
 export const useStore = defineStore('main', {
-  persist: true,
-
-  state: () => ({
-    userId: null,
-    firstName: null,
-    lastName: null,
-    occupation: null,
-    email: null,
-    token: null,
-    bio: null,
-    website: null,
-    interests: null,
-    privacy: null,
-    educationLevel: null,
-    organizationName: null,
-    yearsInBusiness: null,
-    accountType: null,
-    updatedAt: null,
-    // posts
-    // comments
-    // friends
-    tasks: [],
-  }),
+  state: () => {
+    return {
+      userId: -1,
+      firstName: '',
+      lastName: '',
+      occupation: '',
+      email: '',
+      token: '',
+      bio: '',
+      website: '',
+      interests: '',
+      privacy: '',
+      educationLevel: '',
+      organizationName: '',
+      yearsInBusiness: '',
+      accountType: '',
+      updatedAt: new Date(),
+      latestFetch: new Date(),
+      postIds: [],
+      commentIds: [],
+      likeIds: [],
+      tasks: [],
+    }
+  },
   getters: {
     isLoggedIn: state => {
-      return state.token != null && state.useId != null
+      return state.token !== ''
+    },
+    getData: state => {
+      return {
+        userId: state.userId,
+        firstName: state.firstName,
+        lastName: state.lastName,
+        occupation: state.occupation,
+        email: state.email,
+        token: state.token,
+        bio: state.bio,
+        website: state.website,
+        interests: state.interests,
+        privacy: state.privacy,
+        educationLevel: state.educationLevel,
+        organizationName: state.organizationName,
+        yearsInBusiness: state.yearsInBusiness,
+        accountType: state.accountType,
+        updatedAt: state.updatedAt,
+        latestFetch: state.latestFetch,
+        postIds: state.postIds,
+        commentIds: state.commentIds,
+        likeIds: state.likeIds,
+        tasks: state.tasks,
+      }
+    },
+    getLatestFetch: state => state.latestFetch,
+    isDataOutdated: state => {
+      return (new Date() - state.latestFetch) > (1000 * 60 * 60 * 24)
     },
     getUserId: state => state.userId,
     getFirstName: state => state.firstName,
@@ -44,33 +74,22 @@ export const useStore = defineStore('main', {
     getAccountType: state => state.accountType,
     getUpdatedAt: state => state.updatedAt,
     getTasks: state => state.tasks,
+    getPostIds: state => state.postIds,
+    getCommentIds: state => state.commentIds,
+    getLikeIds: state => state.likeIds,
   },
   actions: {
+    login(payload) {
+      console.log(payload)
+    },
     logout: () => {
       // Clear the token and expiration from the store
       this.token = null
       this.tokenExpiration = null
     },
-    setToken: (token) => this.token = token,
-    setUserData: (userData) => {
-      this.userId = userData.userId
-      this.firstName = userData.firstName
-      this.lastName = userData.lastName
-      this.occupation = userData.occupation
-      this.email = userData.email
-      this.token = userData.token
-      this.bio = userData.bio
-      this.website = userData.website
-      this.interests = userData.interests
-      this.privacy = userData.privacy
-      this.educationLevel = userData.educationLevel
-      this.organizationName = userData.organizationName
-      this.yearsInBusiness = userData.yearsInBusiness
-      this.accountType = userData.accountType
-      this.updatedAt = userData.updatedAt
-    },
     completeTas: (taskName) => {
       this.tasks.push(taskName)
     },
-  }
+  },
+  persist: true,
 })
