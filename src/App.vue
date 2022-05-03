@@ -1,20 +1,29 @@
 <template>
   <router-view />
 
-  <footer class="mt-12 p-4 bg-slate-200 md:px-6">
+  <footer class="mt-12 p-4 bg-white md:px-6">
     <div class="flex flex-wrap items-center sm:justify-between space-y-4">
-      <div class="flex">
+      <div class="flex items-center">
         <!-- Logo -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 text-slate-900 hover:scale-110 hover:rotate-6 transform transition"
-          fill="currentColor"
-          viewBox="0 0 512 512"
+          class="icon icon-tabler icon-tabler-affiliate w-8 h-8 mr-4"
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
-          <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-          <path
-            d="M184 0C214.9 0 240 25.07 240 56V456C240 486.9 214.9 512 184 512C155.1 512 131.3 490.1 128.3 461.9C123.1 463.3 117.6 464 112 464C76.65 464 48 435.3 48 400C48 392.6 49.27 385.4 51.59 378.8C21.43 367.4 0 338.2 0 304C0 272.1 18.71 244.5 45.77 231.7C37.15 220.8 32 206.1 32 192C32 161.3 53.59 135.7 82.41 129.4C80.84 123.9 80 118 80 112C80 82.06 100.6 56.92 128.3 49.93C131.3 21.86 155.1 0 184 0zM383.7 49.93C411.4 56.92 432 82.06 432 112C432 118 431.2 123.9 429.6 129.4C458.4 135.7 480 161.3 480 192C480 206.1 474.9 220.8 466.2 231.7C493.3 244.5 512 272.1 512 304C512 338.2 490.6 367.4 460.4 378.8C462.7 385.4 464 392.6 464 400C464 435.3 435.3 464 400 464C394.4 464 388.9 463.3 383.7 461.9C380.7 490.1 356.9 512 328 512C297.1 512 272 486.9 272 456V56C272 25.07 297.1 0 328 0C356.9 0 380.7 21.86 383.7 49.93z"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+          <path d="M11.683 12.317l5.759 -5.759" />
+          <circle cx="5.5" cy="5.5" r="1.5" />
+          <circle cx="18.5" cy="5.5" r="1.5" />
+          <circle cx="18.5" cy="18.5" r="1.5" />
+          <circle cx="8.5" cy="15.5" r="4.5" />
         </svg>
         <span class="itext-sm font-bold text-slate-900 ml-2"
           >Intellectual Space</span
@@ -40,6 +49,8 @@
       </span>
     </div>
   </footer>
+
+  <div id="modal-root"></div>
 </template>
 
 <style>
@@ -53,6 +64,6 @@ body,
 #app {
   height: 100%;
   min-height: 100vh;
-  @apply bg-slate-100;
+  @apply bg-gray-50;
 }
 </style>
