@@ -9,11 +9,28 @@ const routes = [
     component: () => import('@/views/HomeView.vue')
   },
 
-  //ProfileHome
+  //Social Hub Home
   {
-    path: '/profile',
+    path: '/social-hub',
     name: 'profile',
     component: () => import('@/views/Profile/ProfileHomeView.vue'),
+    beforeEnter: (to, from, next) => {
+      // Check if user is logged in and fetch data if so
+      let store = useStore()
+      if (store.isLoggedIn) {
+        if (store.fetchUserData()) {
+          return next()
+        }
+        next({ name: 'login' })
+      }
+      return next({ name: 'login' })
+    }
+  },
+  //Social Hub Settings
+  {
+    path: '/profile/edit',
+    name: 'edit-profile',
+    component: () => import('@/views/Profile/EditProfileView.vue'),
     beforeEnter: (to, from, next) => {
       let store = useStore()
       if (store.isLoggedIn) {
@@ -35,6 +52,7 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Auth/LoginView.vue'),
     beforeEnter: (to, from, next) => {
+      // Bypass login if already logged in
       let store = useStore()
       if (store.isLoggedIn) {
         return next({ name: 'profile' })
@@ -49,7 +67,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       // Clear the token and expiration from the store
       let store = useStore();
-      store.$reset();
+      store.logout();
       next({ name: 'home', query: { logout: true } })
     },
   },

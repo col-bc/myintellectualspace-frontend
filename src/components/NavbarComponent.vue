@@ -28,24 +28,33 @@ export default defineComponent({
 </script>
 
 <template>
-  <nav class="bg-white border-gray-200 border-b px-2 sm:px-4 py-2.5">
-    <div class="container flex flex-wrap justify-between items-center mx-auto">
+  <nav class="bg-white border-gray-200 border-b py-2.5">
+    <div class="flex flex-wrap justify-between items-center mx-auto md:px-4">
       <!-- Logo -->
       <router-link to="/" class="flex items-center gap-x-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-12 h-12 text-gray-900 hover:scale-110 hover:rotate-6 transform transition"
-          fill="currentColor"
-          viewBox="0 0 512 512"
+          class="icon icon-tabler icon-tabler-affiliate"
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
-          <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-          <path
-            d="M184 0C214.9 0 240 25.07 240 56V456C240 486.9 214.9 512 184 512C155.1 512 131.3 490.1 128.3 461.9C123.1 463.3 117.6 464 112 464C76.65 464 48 435.3 48 400C48 392.6 49.27 385.4 51.59 378.8C21.43 367.4 0 338.2 0 304C0 272.1 18.71 244.5 45.77 231.7C37.15 220.8 32 206.1 32 192C32 161.3 53.59 135.7 82.41 129.4C80.84 123.9 80 118 80 112C80 82.06 100.6 56.92 128.3 49.93C131.3 21.86 155.1 0 184 0zM383.7 49.93C411.4 56.92 432 82.06 432 112C432 118 431.2 123.9 429.6 129.4C458.4 135.7 480 161.3 480 192C480 206.1 474.9 220.8 466.2 231.7C493.3 244.5 512 272.1 512 304C512 338.2 490.6 367.4 460.4 378.8C462.7 385.4 464 392.6 464 400C464 435.3 435.3 464 400 464C394.4 464 388.9 463.3 383.7 461.9C380.7 490.1 356.9 512 328 512C297.1 512 272 486.9 272 456V56C272 25.07 297.1 0 328 0C356.9 0 380.7 21.86 383.7 49.93z"
-          />
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+          <path d="M11.683 12.317l5.759 -5.759" />
+          <circle cx="5.5" cy="5.5" r="1.5" />
+          <circle cx="18.5" cy="5.5" r="1.5" />
+          <circle cx="18.5" cy="18.5" r="1.5" />
+          <circle cx="8.5" cy="15.5" r="4.5" />
         </svg>
         <span class="text-lg font-bold text-gray-900">Intellectual Space</span>
       </router-link>
-      <div class="flex md:order-2 items-center">
+      <div class="flex items-center md:order-2">
         <!-- Login: if not logged in -->
         <button
           v-show="!store.isLoggedIn"
@@ -60,19 +69,23 @@ export default defineComponent({
           @click="searchShown = !searchShown"
           v-show="store.isLoggedIn"
           type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            class="icon icon-tabler icon-tabler-search w-6 h-6"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <circle cx="10" cy="10" r="7" />
+            <line x1="21" y1="21" x2="15" y2="15" />
           </svg>
         </button>
         <!-- Profile button: if logged in -->
@@ -80,18 +93,25 @@ export default defineComponent({
           @click="$router.push({ name: 'profile' })"
           v-show="store.isLoggedIn"
           type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            class="icon icon-tabler icon-tabler-user-circle w-6 h-6"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="10" r="3" />
             <path
-              fill-rule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clip-rule="evenodd"
+              d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"
             />
           </svg>
         </button>
@@ -103,36 +123,70 @@ export default defineComponent({
         >
           <svg
             v-show="!mobileMenuOpen"
-            class="w-6 h-6"
-            fill="currentColor"
-            viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-menu-2 w-6 h-6"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path
-              fill-rule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clip-rule="evenodd"
-            ></path>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
           </svg>
           <svg
             v-show="mobileMenuOpen"
-            class="w-6 h-6"
-            fill="currentColor"
-            viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-x w-6 h-6"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        <!-- Desktop logout button -->
+        <button
+          type="button"
+          @click="$router.push({ name: 'logout' })"
+          v-show="store.isLoggedIn"
+          class="hidden md:inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-200"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-logout w-6 h-6"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path
-              fill-rule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
+              d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
+            />
+            <path d="M7 12h14l-3 -3m0 6l3 -3" />
           </svg>
         </button>
       </div>
       <!-- Desktop menu -->
       <div
-        class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
-        id="mobile-menu-4"
+        class="hidden justify-between items-center w-full lg:flex lg:w-auto md:order-1"
       >
         <ul
           class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
@@ -140,15 +194,20 @@ export default defineComponent({
           <li>
             <a
               href="#"
-              class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-              aria-current="page"
+              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
+              :class="{
+                'border-b-2 border-blue-700': $route.name === 'home',
+              }"
               >Home</a
             >
           </li>
           <li>
             <a
               href="#"
-              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
+              :class="{
+                'border-b-2 border-blue-700': $route.name === 'social-hub',
+              }"
             >
               Social Hub</a
             >
@@ -156,14 +215,20 @@ export default defineComponent({
           <li>
             <a
               href="#"
-              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
+              :class="{
+                'border-b-2 border-blue-700': $route.name === 'learners',
+              }"
               >Learners</a
             >
           </li>
           <li>
             <a
               href="#"
-              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
+              :class="{
+                'border-b-2 border-blue-700': $route.name === 'educators',
+              }"
             >
               Educators</a
             >
@@ -171,7 +236,10 @@ export default defineComponent({
           <li>
             <a
               href="#"
-              class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
+              :class="{
+                'border-b-2 border-blue-700': $route.name === 'jobs',
+              }"
             >
               Job Seekers</a
             >
@@ -247,13 +315,20 @@ export default defineComponent({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              class="icon icon-tabler icon-tabler-home-2 w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-              />
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <polyline points="5 12 3 12 12 3 21 12 19 12" />
+              <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+              <rect x="10" y="12" width="4" height="4" />
             </svg>
             Home
           </router-link>
@@ -270,16 +345,24 @@ export default defineComponent({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              class="icon icon-tabler icon-tabler-social w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"
-              />
-              <path
-                d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
-              />
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <circle cx="12" cy="5" r="2" />
+              <circle cx="5" cy="19" r="2" />
+              <circle cx="19" cy="19" r="2" />
+              <circle cx="12" cy="14" r="3" />
+              <line x1="12" y1="7" x2="12" y2="11" />
+              <line x1="6.7" y1="17.8" x2="9.5" y2="15.8" />
+              <line x1="17.3" y1="17.8" x2="14.5" y2="15.8" />
             </svg>
             Social Hub
           </router-link>
@@ -296,13 +379,22 @@ export default defineComponent({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              class="icon icon-tabler icon-tabler-notebook w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path
-                d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"
+                d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"
               />
+              <line x1="13" y1="8" x2="15" y2="8" />
+              <line x1="13" y1="12" x2="15" y2="12" />
             </svg>
             Students
           </router-link>
@@ -319,15 +411,19 @@ export default defineComponent({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              class="icon icon-tabler icon-tabler-school w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                fill-rule="evenodd"
-                d="M10.496 2.132a1 1 0 00-.992 0l-7 4A1 1 0 003 8v7a1 1 0 100 2h14a1 1 0 100-2V8a1 1 0 00.496-1.868l-7-4zM6 9a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1zm3 1a1 1 0 012 0v3a1 1 0 11-2 0v-3zm5-1a1 1 0 00-1 1v3a1 1 0 102 0v-3a1 1 0 00-1-1z"
-                clip-rule="evenodd"
-              />
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+              <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
             </svg>
             Educators
           </router-link>
@@ -337,25 +433,28 @@ export default defineComponent({
             :to="{ name: null }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'student'
+              route.name === 'jobs'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white  hover:bg-gray-100',
             ]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              class="icon icon-tabler icon-tabler-briefcase w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <path
-                fill-rule="evenodd"
-                d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              />
-              <path
-                d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"
-              />
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+              <line x1="12" y1="12" x2="12" y2="12.01" />
+              <path d="M3 13a20 20 0 0 0 18 0" />
             </svg>
             Job Seekers
           </router-link>

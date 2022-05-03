@@ -207,7 +207,7 @@ export default {
           type="email"
           v-model="formModel.email"
           class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="burglar@thefellowship.com"
+          placeholder="bilbo@thefellowship.com"
         />
       </div>
       <!-- Password -->

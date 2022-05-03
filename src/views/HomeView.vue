@@ -1,4 +1,5 @@
 <script>
+import { ref } from "vue";
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import { useRoute } from "vue-router";
 
@@ -8,9 +9,11 @@ export default {
   setup() {
     const route = useRoute();
     const isLogout = route.query.logout;
+    const isLogoutShown = ref(!!isLogout);
 
     return {
       isLogout,
+      isLogoutShown,
     };
   },
 };
@@ -20,7 +23,7 @@ export default {
   <div class="min-h-screen flex-col">
     <NavbarComponent />
     <div
-      v-show="isLogout"
+      v-show="isLogoutShown"
       class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 flex items-center"
       role="alert"
     >
@@ -30,7 +33,7 @@ export default {
       </div>
       <button
         type="button"
-        @click="isLogout = false"
+        @click="isLogoutShown = false"
         class="bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8"
       >
         <svg

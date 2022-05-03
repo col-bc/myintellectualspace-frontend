@@ -50,9 +50,7 @@ export default {
         .then((response) => {
           if (response.data.success) {
             console.log(response.data.token);
-            store.$patch((state) => {
-              state.token = response.data.token;
-            });
+            store.setToken(response.data.token);
             router.push({ name: "profile" });
             return;
           }
@@ -125,7 +123,7 @@ export default {
           type="email"
           v-model="formModel.email"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="burglar@thefellowship.com"
+          placeholder="bilbo@thefellowship.com"
         />
       </div>
       <!-- Password -->
