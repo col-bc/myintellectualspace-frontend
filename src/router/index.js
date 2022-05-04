@@ -40,6 +40,20 @@ const routes = [
     }
   },
 
+  //Meetings
+  {
+    path: '/meetings',
+    name: 'meetings',
+    component: () => import('@/views/Meetings/MeetingsHomeView.vue'),
+    beforeEnter: (to, from, next) => {
+      let store = useStore()
+      if (store.isLoggedIn) {
+        return next()
+      }
+      return next({ name: 'login' })
+    }
+  },
+
   //Register Page
   {
     path: '/register',
