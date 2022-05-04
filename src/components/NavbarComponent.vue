@@ -28,7 +28,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <nav class="bg-white border-gray-200 border-b py-2.5">
+  <nav class="bg-white shadow border-gray-200 border-b py-2.5">
     <div class="flex flex-wrap justify-between items-center mx-auto md:px-4">
       <!-- Logo -->
       <router-link to="/" class="flex items-center gap-x-4">
@@ -192,24 +192,24 @@ export default defineComponent({
           class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
         >
           <li>
-            <a
-              href="#"
+            <router-link
+              :to="{ name: 'home' }"
               class="block py-2 px-3 text-gray-700 hover:text-gray-900"
               :class="{
                 'border-b-2 border-blue-700': $route.name === 'home',
               }"
-              >Home</a
+              >Home</router-link
             >
           </li>
           <li>
-            <a
-              href="#"
+            <router-link
+              :to="{ name: 'profile' }"
               class="block py-2 px-3 text-gray-700 hover:text-gray-900"
               :class="{
-                'border-b-2 border-blue-700': $route.name === 'social-hub',
+                'border-b-2 border-blue-700': $route.name === 'profile',
               }"
             >
-              Social Hub</a
+              Social Hub</router-link
             >
           </li>
           <li>

@@ -18,6 +18,7 @@ export const useStore = defineStore('main', {
   actions: {
     setUserData(payload) {
       this.user = payload
+      this.lastFetch = new Date()
     },
     async fetchUserData(force = false) {
       if (this.isDataStale || force) {
