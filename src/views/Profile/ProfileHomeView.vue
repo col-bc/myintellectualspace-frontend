@@ -30,9 +30,16 @@ export default {
     });
 
     const postUserData = (data, key) => {
+      // Update the user data in the database
       var payload = store.getUserData;
       payload[key] = data;
+      console.log(payload);
       store.setUserData(payload);
+      delete payload.email;
+      delete payload.auth_token;
+      delete payload.token_expiration;
+      delete payload.created_at;
+      delete payload.updated_at;
       axios
         .post("http://localhost:5000/api/user/update", payload, {
           headers: {
@@ -49,6 +56,7 @@ export default {
 
     const selectedInterests = ref([]);
     const selectInterest = (interest) => {
+      // Handle interest toggle logic
       if (selectedInterests.value.length > 4) {
         return;
       }
@@ -76,8 +84,9 @@ export default {
 
 <template>
   <NavbarComponent />
-  <div id="teleport-destination"></div>
-  <div class="container flex flex-col lg:flex-row my-8 px-4 lg:space-x-8">
+  <div
+    class="container flex flex-col mx-auto lg:flex-row my-8 px-4 lg:space-x-8"
+  >
     <div class="flex flex-col w-full md:w-1/3">
       <!-- Profile Picture / Name / Settings Button -->
       <div class="flex flex-col items-center justify-center">
@@ -120,7 +129,7 @@ export default {
     <div class="flex flex-col md:w-2/3 mt-8 lg:mt-0">
       <!-- Tabs -->
       <div
-        class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
+        class="text-sm font-medium text-center text-gray-800 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
       >
         <ul class="flex flex-wrap -mb-px">
           <li class="mr-2">
@@ -132,7 +141,7 @@ export default {
                   : 'inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300',
               ]"
             >
-              About You
+              You
             </button>
           </li>
           <li class="mr-2">
@@ -144,7 +153,7 @@ export default {
                   : 'inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300',
               ]"
             >
-              Your Posts
+              Posts
             </button>
           </li>
           <li class="mr-2">
@@ -156,7 +165,7 @@ export default {
                   : 'inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300',
               ]"
             >
-              Your Friends
+              Friends
             </button>
           </li>
           <a
@@ -174,10 +183,10 @@ export default {
       >
         <!-- Bio -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Name</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Bio</h3>
             <input-modal-component
               title="Update Profile"
               :options="['Save', 'Cancel']"
@@ -206,10 +215,10 @@ export default {
         </div>
         <!-- Name -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Bio</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Name</h3>
             <input-modal-component
               title="Update Profile"
               :options="['Save', 'Cancel']"
@@ -222,7 +231,7 @@ export default {
                 }
               "
             >
-              <div class="grid grid-cols-2 space-x-6">
+              <div class="grid grid-flow-row ms:grid-cols-2 space-y-4 md:space-y-0 md:space-x-6">
                 <input
                   type="text"
                   v-model="userDataModel.firstName"
@@ -247,10 +256,10 @@ export default {
         </div>
         <!-- Occupation -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">
               Occupation
             </h3>
             <input-modal-component
@@ -284,10 +293,10 @@ export default {
         </div>
         <!-- Location -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Location</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Location</h3>
             <input-modal-component
               title="Update Profile"
               :options="['Save', 'Cancel']"
@@ -320,10 +329,10 @@ export default {
         </div>
         <!-- Website -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Website</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Website</h3>
             <input-modal-component
               title="Update Profile"
               :options="['Save', 'Cancel']"
@@ -353,10 +362,10 @@ export default {
         </div>
         <!-- Education -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Education</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Education</h3>
             <input-modal-component
               title="Update Profile"
               :options="['Save', 'Cancel']"
@@ -364,15 +373,15 @@ export default {
                 (idx) => {
                   if (idx === 0) {
                     postUserData(
-                      userDataModel.education_level,
+                      userDataModel.educationLevel,
                       'education_level'
                     );
                     postUserData(
-                      userDataModel.education_major,
+                      userDataModel.educationMajor,
                       'education_major'
                     );
                     postUserData(
-                      userDataModel.education_institution,
+                      userDataModel.educationInstitution,
                       'education_institution'
                     );
                   }
@@ -454,10 +463,10 @@ export default {
         </div>
         <!-- Interests -->
         <div
-          class="flex flex-col bg-white p-2 border border-gray-300 shadow-sm rounded-lg"
+          class="flex flex-col bg-white p-2 border border-gray-200 rounded-lg"
         >
-          <div class="flex flex-row w-ful bg-gray-200 rounded p-1">
-            <h3 class="text-gray-800 font-medium text-xl mr-auto">Interests</h3>
+          <div class="flex flex-row w-ful bg-gray-100 rounded p-1">
+            <h3 class="text-gray-700 font-medium text-lg mr-auto">Interests</h3>
             <input-modal-component
               title="Select up to 5 interests."
               :options="['Save', 'Cancel']"

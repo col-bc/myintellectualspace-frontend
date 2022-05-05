@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view></router-view>
 
   <footer class="mt-12 p-4 bg-white md:px-6">
     <div class="flex flex-wrap items-center sm:justify-between space-y-4">
@@ -44,8 +44,9 @@
         </li>
       </ul>
       <span class="text-gray-500 text-sm">
-        © 2022 <a href="#" class="hover:underline">Intellectual Space</a>. All
-        Rights Reserved.
+        © {{ new Date().getYear() + 1900 }}
+        <a href="#" class="hover:underline">Intellectual Space</a>. All Rights
+        Reserved.
       </span>
     </div>
   </footer>

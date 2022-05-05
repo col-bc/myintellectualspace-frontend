@@ -47,7 +47,7 @@ export default defineComponent({
 <template>
   <button
     @click="rShow = true"
-    class="py-0.5 px-1.5 text-xs font-medium text-center text-blue-700 border border-blue-700 rounded hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-blue-300"
+    class="py-0.5 px-1.5 text-xs font-medium text-center text-blue-700 border border-blue-700 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
     type="button"
   >
     <svg

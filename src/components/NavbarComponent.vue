@@ -88,7 +88,7 @@ export default defineComponent({
             <line x1="21" y1="21" x2="15" y2="15" />
           </svg>
         </button>
-        <!-- Profile button: if logged in -->
+        <!-- Explore button: if logged in -->
         <button
           @click="$router.push({ name: 'profile' })"
           v-show="store.isLoggedIn"
@@ -97,7 +97,7 @@ export default defineComponent({
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-user-circle w-6 h-6"
+            class="icon icon-tabler icon-tabler-brand-safari w-6 h-6"
             width="44"
             height="44"
             viewBox="0 0 24 24"
@@ -108,11 +108,8 @@ export default defineComponent({
             stroke-linejoin="round"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <polyline points="8 16 10 10 16 8 14 14 8 16" />
             <circle cx="12" cy="12" r="9" />
-            <circle cx="12" cy="10" r="3" />
-            <path
-              d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"
-            />
           </svg>
         </button>
         <!-- Mobile menu button -->
