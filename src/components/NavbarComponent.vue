@@ -34,7 +34,7 @@ export default defineComponent({
       <router-link to="/" class="flex items-center gap-x-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="icon icon-tabler icon-tabler-affiliate"
+          class="icon icon-tabler icon-tabler-affiliate w-10 h-10"
           width="44"
           height="44"
           viewBox="0 0 24 24"
@@ -186,7 +186,7 @@ export default defineComponent({
         class="hidden justify-between items-center w-full lg:flex lg:w-auto md:order-1"
       >
         <ul
-          class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
+          class="flex flex-col mt-4 md:flex-row md:space-x-6 md:mt-0 md:text-sm md:font-medium"
         >
           <li>
             <router-link
@@ -203,7 +203,7 @@ export default defineComponent({
               :to="{ name: 'meetings' }"
               class="block py-2 px-3 text-gray-700 hover:text-gray-900"
               :class="{
-                'border-b-2 border-blue-700': $route.name === 'home',
+                'border-b-2 border-blue-700': $route.name === 'meetings',
               }"
               >Meetings</router-link
             >

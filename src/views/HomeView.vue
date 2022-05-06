@@ -20,8 +20,11 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen flex-col">
+  <div
+    class="min-h-screen bg-gradient-to-br from-red-50 to-blue-200 flex-col"
+  >
     <NavbarComponent />
+    <!-- Sign out notification -->
     <div
       v-show="isLogoutShown"
       class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 flex items-center"
@@ -77,7 +80,7 @@ export default {
             <button
               @click="$router.push({ name: 'register' })"
               type="button"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center flex items-center gap-x-4"
+              class="text-white flex-1 justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center flex items-center gap-x-4"
             >
               Start Connecting Today
               <svg
@@ -98,15 +101,15 @@ export default {
             <button
               type="button"
               @click="$router.push({ name: 'profile' })"
-              class="px-6 py-3.5 mr-2 mb-2 text-sm font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-slate-200 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200"
+              class="px-6 py-3.5 text-sm h-full font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-slate-200 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200"
             >
               See my profile
             </button>
           </div>
         </div>
         <img
-          src="@/assets/images/Intellectual.png"
-          class="hidden md:flex w-auto"
+          src="@/assets/images/index-hero.svg"
+          class="hidden md:flex w-full floating drop-shadow-lg"
         />
       </div>
     </div>
@@ -223,3 +226,26 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.floating {
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  margin-left: 30px;
+  margin-top: 5px;
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0px);
+  }
+  65% {
+    transform: translate(0, 15px);
+  }
+  to {
+    transform: translate(0, -0px);
+  }
+}
+</style>
