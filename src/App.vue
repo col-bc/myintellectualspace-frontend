@@ -1,7 +1,8 @@
 <template>
-  <router-view></router-view>
-
-  <footer class="mt-12 p-4 bg-white md:px-6">
+  <div class="min-h-screen">
+    <router-view />
+  </div>
+  <footer class="mt-12 p-4 bg-slate-900 text-slate-50 md:px-6">
     <div class="flex flex-wrap items-center sm:justify-between space-y-4">
       <div class="flex items-center">
         <!-- Logo -->
@@ -29,7 +30,7 @@
           >Intellectual Space</span
         >
       </div>
-      <ul class="flex flex-wrap items-center text-sm text-gray-500 sm:mb-0">
+      <ul class="flex flex-wrap items-center text-sm text-gray-100 sm:mb-0">
         <li>
           <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
         </li>
@@ -50,7 +51,6 @@
       </span>
     </div>
   </footer>
-
   <div id="modal-root"></div>
 </template>
 

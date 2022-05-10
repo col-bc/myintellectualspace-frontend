@@ -40,7 +40,7 @@ const routes = [
     }
   },
 
-  //Meetings
+  //Meetings home
   {
     path: '/meetings',
     name: 'meetings',
@@ -52,6 +52,19 @@ const routes = [
       }
       return next({ name: 'login' })
     }
+  },
+  // Host meeting
+  {
+    path: '/meetings/host/:meetingId/:meetingTitle/:meetingJWT',
+    name: 'host-meeting',
+    component: () => import('@/views/Meetings/HostMeetingView.vue'),
+    beforeEnter: (to, from, next) => {
+      let store = useStore()
+      if (store.isLoggedIn) {
+        return next()
+      }
+      return next({ name: 'login' })
+    },
   },
 
   //Register Page
