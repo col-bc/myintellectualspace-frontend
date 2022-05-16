@@ -1,9 +1,9 @@
 <script>
 import NavbarComponent from "../../components/NavbarComponent.vue";
 import { useStore } from "@/store";
-import axios from "axios";
-import { useRouter } from "vue-router";
 
+import { useRouter } from "vue-router";
+import axios from "axios";
 import { ref, watch } from "vue";
 
 export default {
@@ -26,6 +26,7 @@ export default {
       message: "",
     });
     watch(alert.value, (newVal) => {
+      // auto dismiss alert after 7.5 seconds
       if (newVal.show) {
         window.scrollTo(0, 0);
         setTimeout(() => {
@@ -39,6 +40,7 @@ export default {
     }
 
     const handleHostMeeting = () => {
+      // validate form
       if (meetingTitle.value === "") {
         alert.value = {
           show: true,
@@ -47,23 +49,18 @@ export default {
         scrollToAlert();
         return;
       } else {
-        // get jwt from api
+        // get jwt from backend
         nextIsLoading.value = true;
 
-        axios
-          .get("http://localhost:5000/api/meetings/jwt", {
-            headers: {
-              Authorization: store.bearerToken,
-            },
-          })
+        getJWT()
           .then((res) => {
             meetingJWT.value = res.data.token;
 
-            // create meeting room with VideoSDK
+            // create VideoSDK meeting room with jwt
             axios
               .post(
                 "https://api.videosdk.live/v1/meetings",
-                {},
+                {}, // send empty payload pursuant to docs
                 {
                   headers: {
                     Authorization: meetingJWT.value,
@@ -71,7 +68,6 @@ export default {
                 }
               )
               .then((res) => {
-                console.log(meetingJWT.value);
                 router.push({
                   name: "host-meeting",
                   params: {
@@ -79,12 +75,15 @@ export default {
                     meetingTitle: meetingTitle.value,
                     meetingJWT: meetingJWT.value,
                   },
+                  target: "_new",
                 });
                 console.log(res);
-                nextIsLoading.value = false;
               })
               .catch((ex) => {
                 console.log(ex);
+              })
+              .finally(() => {
+                nextIsLoading.value = false;
               });
           })
           .catch((err) => {
@@ -92,10 +91,13 @@ export default {
             alert.value = {
               show: true,
               message:
-                "Error getting authentication token. Please try again later",
+                "Error generating authentication token. Please try again later",
             };
             scrollToAlert();
             return;
+          })
+          .finally(() => {
+            nextIsLoading.value = false;
           });
       }
     };
@@ -107,7 +109,37 @@ export default {
         scrollToAlert();
         return;
       }
+      nextIsLoading.value = true;
+
+      // validate meeting ID with VideoSDK
+      axios
+        .get(`https://api.videosdk.live/v2/rooms/validate/${meetingId.value}`)
+        .then((res) => {
+          console.log(res.data);
+          console.log(res.status);
+          router.push({
+            name: "join-meeting",
+            params: {
+              meetingId: meetingId.value,
+            },
+            target: "_new",
+          });
+        })
+        .catch((ex) => {
+          console.log(ex);
+          alert.value.message = "Invalid meeting ID";
+          alert.value.show = true;
+          scrollToAlert();
+        });
     };
+
+    async function getJWT() {
+      return await axios.get("http://localhost:5000/api/meetings/jwt", {
+        headers: {
+          Authorization: store.bearerToken,
+        },
+      });
+    }
 
     return {
       view,
@@ -148,8 +180,8 @@ export default {
     </div>
   </div>
 
-  <div class="container grid grid-cols-1 md:grid-cols-4 mx-auto">
-    <div class="md:col-span-3">
+  <div class="container grid grid-cols-1 lg:grid-cols-4 space-4 mx-auto">
+    <div class="col-auto lg:col-span-3">
       <!-- View 0: Join/Host -->
       <div
         v-show="view === 0"
@@ -362,8 +394,9 @@ export default {
         </div>
       </div>
     </div>
+    <!-- Meeting Calendar  -->
     <div
-      class="mt-8 flex flex-col bg-white p-4 rounded-lg border border-gray-200"
+      class="col-auto mt-8 flex flex-col bg-white p-4 rounded-lg border border-gray-200"
     >
       <h1 class="font-bold p-2 rounded bg-gray-100 text-gray-800">
         Upcoming Meetings
