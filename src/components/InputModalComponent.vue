@@ -20,7 +20,7 @@ export default defineComponent({
     },
     buttonText: {
       type: String,
-      default: "See more",
+      default: undefined,
     },
   },
 
@@ -47,10 +47,11 @@ export default defineComponent({
 <template>
   <button
     @click="rShow = true"
-    class="py-0.5 px-1.5 text-xs font-medium text-center text-blue-700 border border-blue-700 rounded hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
+    class="py-0.5 px-1.5 font-base text-center text-blue-700 rounded hover:bg-gray-900 hover:bg-opacity-5 border border-transparent hover:border-gray-900 hover:border-opacity-10 focus:ring-4 focus:outline-none focus:ring-blue-300"
     type="button"
   >
     <svg
+      v-if="!rButtonText"
       xmlns="http://www.w3.org/2000/svg"
       class="icon icon-tabler icon-tabler-pencil w-4 h-4"
       width="44"
@@ -66,6 +67,7 @@ export default defineComponent({
       <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
       <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
     </svg>
+    <span v-else>{{ rButtonText }}</span>
   </button>
   <Teleport to="#modal-root">
     <!-- Overlay -->

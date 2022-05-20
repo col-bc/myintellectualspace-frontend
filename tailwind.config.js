@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Rubik', 'sans-serif'],
+        sans: ['Poppins', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
       }
     },
   },

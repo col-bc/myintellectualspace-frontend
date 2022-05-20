@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
+
 export const useStore = defineStore('main', {
   state: () => ({
     user: {},
@@ -13,6 +14,7 @@ export const useStore = defineStore('main', {
     getUserData: state => state.user,
     getToken: state => state.token,
     isDataStale: state => new Date() - state.lastFetch > 60000,
+    posts: state => state.getUserData.post_ids,
     bearerToken: state => `Bearer ${state.token}`
   },
   actions: {
@@ -39,6 +41,9 @@ export const useStore = defineStore('main', {
     setToken(payload) {
       this.token = payload
       this.fetchUserData(true)
+    },
+    addPost(payload) {
+      this.user.post_ids.push(payload)
     },
     logout() {
       this.token = ''

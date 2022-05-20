@@ -138,10 +138,14 @@ export default {
     <form
       @submit.prevent="handleFormSubmit()"
       v-show="!registrationSuccessful"
-      class="max-w-lg mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
+      class="max-w-2xl mx-auto p-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
-        <img src="@/assets/images/register.svg" alt="Register" class="w-full max-h-64 mx-auto mb-6" />
+        <img
+          src="@/assets/images/register.svg"
+          alt="Register"
+          class="w-full max-h-64 mx-auto mb-6"
+        />
         <h1 class="text-3xl text-center font-bold text-slate-900 pb-2">
           We're glad to have you at Intellectual Space
         </h1>
@@ -173,30 +177,31 @@ export default {
           <span class="font-medium">{{ alertModel.message }}</span>
         </div>
       </div>
-
-      <!-- First Name -->
-      <div>
-        <label class="block mb-2 text-sm font-medium text-slate-900"
-          >Your first name</label
-        >
-        <input
-          type="text"
-          v-model="formModel.firstName"
-          class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="Bilbo"
-        />
-      </div>
-      <!-- Last Name -->
-      <div>
-        <label class="block mb-2 text-sm font-medium text-slate-900"
-          >Your last name</label
-        >
-        <input
-          type="text"
-          v-model="formModel.lastName"
-          class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="Baggins"
-        />
+      <div class="grid grid-cols-2 space-x-4">
+        <!-- First Name -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-slate-900"
+            >Your first name</label
+          >
+          <input
+            type="text"
+            v-model="formModel.firstName"
+            class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Bilbo"
+          />
+        </div>
+        <!-- Last Name -->
+        <div>
+          <label class="block mb-2 text-sm font-medium text-slate-900"
+            >Your last name</label
+          >
+          <input
+            type="text"
+            v-model="formModel.lastName"
+            class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Baggins"
+          />
+        </div>
       </div>
       <!-- Email -->
       <div>

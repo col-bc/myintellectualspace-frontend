@@ -19,7 +19,7 @@ export default defineComponent({
     return {
       mobileMenuOpen,
       store,
-      route: useRoute().name,
+      currentRoute: useRoute().name,
       searchShown: ref(false),
       isLoggedIn: ref(store.isLoggedIn),
     };
@@ -28,10 +28,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <nav class="bg-white shadow border-gray-200 border-b py-2.5">
-    <div class="flex flex-wrap justify-between items-center mx-auto md:px-4">
+  <nav class="bg-white shadow border-gray-200 border-b relative py-2.5 md:py-0">
+    <div class="flex flex-wrap items-center mx-auto px-4">
       <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-x-4">
+      <router-link to="/" class="flex items-center gap-x-4 flex-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="icon icon-tabler icon-tabler-affiliate w-10 h-10"
@@ -52,9 +52,89 @@ export default defineComponent({
           <circle cx="18.5" cy="18.5" r="1.5" />
           <circle cx="8.5" cy="15.5" r="4.5" />
         </svg>
-        <span class="text-lg font-bold text-gray-900">Intellectual Space</span>
+        <span class="font-bold text-gray-900 hidden lg:inline-flex"
+          >Intellectual Space</span
+        >
       </router-link>
-      <div class="flex items-center md:order-2">
+      <!-- Desktop menu -->
+      <div
+        class="hidden justify-between items-center w-full md:flex md:w-auto mr-4"
+      >
+        <ul
+          class="flex flex-col mt-4 md:flex-row md:mt-0 md:text-sm md:font-medium"
+        >
+          <li>
+            <router-link
+              :to="{ name: 'home' }"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700': currentRoute === 'home',
+              }"
+              >Home</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              :to="{ name: 'meetings' }"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700':
+                  currentRoute === 'meetings' ||
+                  currentRoute === 'host-meeting' ||
+                  currentRoute === 'host-meeting',
+              }"
+              >Meetings</router-link
+            >
+          </li>
+          <li>
+            <router-link
+              :to="{ name: 'social-details' }"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700':
+                  currentRoute === 'profile' ||
+                  currentRoute === 'social-details',
+              }"
+            >
+              Social Hub</router-link
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700': currentRoute === 'learners',
+              }"
+              >Learners</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700': currentRoute === 'educators',
+              }"
+            >
+              Educators</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
+              :class="{
+                'border-b-2 border-blue-700': currentRoute === 'jobs',
+              }"
+            >
+              Job Seekers</a
+            >
+          </li>
+        </ul>
+      </div>
+      <!-- Buttons -->
+      <div class="flex items-center gap-2">
         <!-- Login: if not logged in -->
         <button
           v-show="!store.isLoggedIn"
@@ -69,7 +149,7 @@ export default defineComponent({
           @click="searchShown = !searchShown"
           v-show="store.isLoggedIn"
           type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          class="inline-flex items-center p-2 text-sm text-gray-900 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,10 +170,10 @@ export default defineComponent({
         </button>
         <!-- Explore button: if logged in -->
         <button
-          @click="$router.push({ name: 'profile' })"
+          @click="$router.push({ name: 'social' })"
           v-show="store.isLoggedIn"
           type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          class="inline-flex items-center p-2 text-sm text-gray-900 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +196,7 @@ export default defineComponent({
         <button
           @click="mobileMenuOpen = !mobileMenuOpen"
           type="button"
-          class="inline-flex items-center p-2 text-sm text-gray-700 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          class="inline-flex items-center p-2 text-sm text-gray-900 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             v-show="!mobileMenuOpen"
@@ -159,7 +239,7 @@ export default defineComponent({
           type="button"
           @click="$router.push({ name: 'logout' })"
           v-show="store.isLoggedIn"
-          class="hidden md:inline-flex items-center p-2 text-sm text-gray-700 rounded-lg hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-200"
+          class="hidden md:inline-flex items-center p-2 text-sm text-gray-900 rounded-lg hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -180,78 +260,6 @@ export default defineComponent({
             <path d="M7 12h14l-3 -3m0 6l3 -3" />
           </svg>
         </button>
-      </div>
-      <!-- Desktop menu -->
-      <div
-        class="hidden justify-between items-center w-full lg:flex lg:w-auto md:order-1"
-      >
-        <ul
-          class="flex flex-col mt-4 md:flex-row md:space-x-6 md:mt-0 md:text-sm md:font-medium"
-        >
-          <li>
-            <router-link
-              :to="{ name: 'home' }"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'home',
-              }"
-              >Home</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              :to="{ name: 'meetings' }"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'meetings',
-              }"
-              >Meetings</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              :to="{ name: 'profile' }"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'profile',
-              }"
-            >
-              Social Hub</router-link
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'learners',
-              }"
-              >Learners</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'educators',
-              }"
-            >
-              Educators</a
-            >
-          </li>
-          <li>
-            <a
-              href="#"
-              class="block py-2 px-3 text-gray-700 hover:text-gray-900"
-              :class="{
-                'border-b-2 border-blue-700': $route.name === 'jobs',
-              }"
-            >
-              Job Seekers</a
-            >
-          </li>
-        </ul>
       </div>
     </div>
   </nav>
@@ -302,10 +310,10 @@ export default defineComponent({
   </div>
   <!-- Mobile Dropdown -->
   <nav
-    class="absolute left-0 w-screen h-auto rounded-b border-t-0 border-gray-300 bg-white px-2 sm:px-6 pb-2.5 shadow transform transition-transform"
+    class="absolute left-0 w-screen h-auto rounded-b border-t-0 border-gray-300 bg-white px-2 sm:px-6 pb-2.5 shadow-lg transform transition-transform"
     :class="{
       '-top-full': !mobileMenuOpen,
-      'top-16': mobileMenuOpen,
+      'top-14': mobileMenuOpen,
     }"
   >
     <div class="flex justify-between items-center w-full">
@@ -315,7 +323,7 @@ export default defineComponent({
             :to="{ name: 'home' }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'home'
+              currentRoute === 'home'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white hover:bg-gray-100',
             ]"
@@ -345,7 +353,9 @@ export default defineComponent({
             :to="{ name: 'meetings' }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'meetings'
+              currentRoute === 'meetings' ||
+              currentRoute === 'host-meeting' ||
+              currentRoute === 'join-meeting'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white hover:bg-gray-100',
             ]"
@@ -376,7 +386,7 @@ export default defineComponent({
             :to="{ name: null }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'social'
+              currentRoute === 'social'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white hover:bg-gray-100',
             ]"
@@ -410,7 +420,7 @@ export default defineComponent({
             :to="{ name: null }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'student'
+              currentRoute === 'student'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white  hover:bg-gray-100',
             ]"
@@ -442,7 +452,7 @@ export default defineComponent({
             :to="{ name: null }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'student'
+              currentRoute === 'student'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white  hover:bg-gray-100',
             ]"
@@ -471,7 +481,7 @@ export default defineComponent({
             :to="{ name: null }"
             class="py-2 pr-4 pl-3 rounded flex items-center gap-x-4"
             :class="[
-              route.name === 'jobs'
+              currentRoute === 'jobs'
                 ? 'bg-blue-700 text-white'
                 : 'text-gray-900 bg-white  hover:bg-gray-100',
             ]"

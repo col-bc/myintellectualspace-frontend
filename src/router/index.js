@@ -1,44 +1,57 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useStore } from '@/store'
+import axios from 'axios';
 
 const routes = [
-  //Landing Page
+  //Index Page
   {
     path: '/',
     name: 'home',
     component: () => import('@/views/HomeView.vue')
   },
 
+  // ###############
+  //  Social Routes
+  // ###############
+
   //Social Hub Home
   {
-    path: '/social-hub',
-    name: 'profile',
-    component: () => import('@/views/Profile/ProfileHomeView.vue'),
+    path: '/social',
+    name: 'social',
+    component: () => import('@/views/Profile/ProfileIndex.vue'),
     beforeEnter: (to, from, next) => {
       // Check if user is logged in and fetch data if so
       let store = useStore()
-      if (store.isLoggedIn) {
-        if (store.fetchUserData()) {
-          return next()
-        }
-        next({ name: 'login' })
-      }
-      return next({ name: 'login' })
-    }
+      store.fetchUserData({ force: true })
+      if (to.name === 'social') return next({ name: 'social-details' })
+      if (store.isLoggedIn) return next()
+      else return next()
+    },
+    children: [
+      //Profile Details
+      {
+        path: '',
+        name: 'social-details',
+        component: () => import('@/views/Profile/ProfileDetails.vue')
+      },
+      //Profile feed
+      {
+        path: 'feed',
+        name: 'social-feed',
+        component: () => import('@/views/Profile/ProfileFeed.vue')
+      },
+      //New Post
+      {
+        path: 'post',
+        name: 'social-post',
+        component: () => import('@/views/Profile/ProfileNewPost.vue')
+      },
+    ],
   },
-  //Social Hub Settings
-  {
-    path: '/profile/edit',
-    name: 'edit-profile',
-    component: () => import('@/views/Profile/EditProfileView.vue'),
-    beforeEnter: (to, from, next) => {
-      let store = useStore()
-      if (store.isLoggedIn) {
-        return next()
-      }
-      return next({ name: 'login' })
-    }
-  },
+
+  /// #################
+  //    Meeting Routes
+  /// #################
 
   //Meetings home
   {
@@ -47,10 +60,8 @@ const routes = [
     component: () => import('@/views/Meetings/MeetingsHomeView.vue'),
     beforeEnter: (to, from, next) => {
       let store = useStore()
-      if (store.isLoggedIn) {
-        return next()
-      }
-      return next({ name: 'login' })
+      if (store.isLoggedIn) return next()
+      else return next()
     }
   },
   // Host meeting
@@ -60,20 +71,56 @@ const routes = [
     component: () => import('@/views/Meetings/HostMeetingView.vue'),
     beforeEnter: (to, from, next) => {
       let store = useStore()
-      if (store.isLoggedIn) {
-        return next()
+      if (store.isLoggedIn) return next()
+      else return next()
+    },
+  },
+  // Join meeting
+  {
+    path: '/meetings/join/:meetingId',
+    name: 'join-meeting-prefetch',
+    component: () => { return undefined },
+    beforeEnter: (to, from, next) => {
+      if (to.params.meetingId) {
+        let store = useStore();
+        axios.get("http://localhost:5000/api/meetings/jwt", {
+          headers: {
+            Authorization: store.bearerToken,
+          },
+        }).then((r) => {
+          return next({
+            name: 'join-meeting', params: {
+              meetingId: to.params.meetingId,
+              meetingJWT: r.data.jwt,
+            }
+          })
+        })
       }
-      return next({ name: 'login' })
+    }
+  },
+  // Join meeting by meetingId and meetingJWT
+  {
+    path: '/meetings/join/:meetingId/:meetingJWT',
+    name: 'join-meeting',
+    component: () => import('@/views/Meetings/ParticipantMeetingView.vue'),
+    beforeEnter: (to, from, next) => {
+      let store = useStore()
+      if (store.isLoggedIn) return next()
+      else return next()
     },
   },
 
-  //Register Page
+  // #################
+  //   Auth Routes
+  // #################
+
+  //Register
   {
     path: '/register',
     name: 'register',
     component: () => import('@/views/Auth/RegisterView.vue')
   },
-  //Login Page
+  //Login
   {
     path: '/login',
     name: 'login',
@@ -81,10 +128,8 @@ const routes = [
     beforeEnter: (to, from, next) => {
       // Bypass login if already logged in
       let store = useStore()
-      if (store.isLoggedIn) {
-        return next({ name: 'profile' })
-      }
-      return next()
+      if (store.isLoggedIn) return next({ name: 'social-details' })
+      else return next()
     }
   },
   //Logout
@@ -98,6 +143,12 @@ const routes = [
       next({ name: 'home', query: { logout: true } })
     },
   },
+  // 404
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/views/Errors/NotFoundView.vue')
+  }
 ]
 
 const router = createRouter({

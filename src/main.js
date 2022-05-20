@@ -10,7 +10,7 @@ pinia.use(piniaPluginPersistedstate)
 
 
 import 'flowbite'
-import '@/assets/font/Rubik.css'
+import '@/assets/font/Poppins.css'
 
 createApp(App)
     .use(pinia)

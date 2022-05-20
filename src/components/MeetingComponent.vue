@@ -1,5 +1,6 @@
 <script>
 import { defineComponent, onMounted } from "vue";
+import { useStore } from "@/store";
 import { VideoSDKMeeting } from "@videosdk.live/rtc-js-prebuilt";
 import { VIDEOSDK_API_KEY } from "@/secrets";
 
@@ -12,7 +13,7 @@ export default defineComponent({
     },
     token: {
       type: String,
-      required: true,
+      required: false,
     },
     meetingTitle: {
       type: String,
@@ -32,33 +33,40 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const user = useStore().getUserData;
     onMounted(() => {
       const config = {
-        name: props.screenName,
+        name: user.first_name,
         meetingId: props.meetingId,
         apiKey: VIDEOSDK_API_KEY,
-        token: props.token,
+        token: props.token ? props.token : null,
 
         containerId: "meeting-stream-container",
 
         micEnabled: true,
-        webcamEnabled: true,
+        webcamEnabled: props.meetingOptions.enableCamera,
         participantCanToggleSelfWebcam: true,
         participantCanToggleSelfMic: true,
 
-        chatEnabled: true,
-        screenShareEnabled: true,
+        chatEnabled: props.meetingOptions.enableChat,
+        screenShareEnabled: props.meetingOptions.enableScreenShare,
+        whiteboardEnabled: props.meetingOptions.enableWhiteboard,
 
         joinScreen: {
           visible: true,
           title: props.meetingTitle,
-          name: ''
+          meetingUrl: `http://localhost:8080/meetings/${props.meetingId}`,
+          name: user.first_name,
         },
-        /* Other Feature Properties */
+
+        participantCanLeave: true,
+        redirectOnLeave: "http://localhost:8080/meetings/thanks",
+        // ...
       };
       const meeting = new VideoSDKMeeting();
       meeting.init(config);
     });
+
   },
 });
 </script>

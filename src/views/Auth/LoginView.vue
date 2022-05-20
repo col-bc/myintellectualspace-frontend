@@ -51,7 +51,7 @@ export default {
           if (response.data.success) {
             console.log(response.data.token);
             store.setToken(response.data.token);
-            router.push({ name: "profile" });
+            router.push({ name: "social" });
             return;
           }
         })
@@ -78,7 +78,7 @@ export default {
 
     <form
       @submit.prevent="handleFormSubmit()"
-      class="max-w-lg mx-auto px-4 py-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
+      class="max-w-2xl mx-auto p-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
         <img

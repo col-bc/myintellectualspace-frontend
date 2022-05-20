@@ -20,14 +20,12 @@ export default {
 </script>
 
 <template>
-  <div
-    class="min-h-screen bg-gradient-to-br from-red-50 to-blue-200 flex-col"
-  >
+  <div class="h-screen overflow-hidden flex flex-col">
     <NavbarComponent />
     <!-- Sign out notification -->
     <div
       v-show="isLogoutShown"
-      class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 flex items-center"
+      class="p-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800 flex items-center"
       role="alert"
     >
       <div class="flex-1">
@@ -53,63 +51,58 @@ export default {
         </svg>
       </button>
     </div>
-
-    <div class="flex items-center flex-1 p-4 mx-auto mt-8">
-      <!-- Landing -->
-      <div class="flex flex-col md:flex-row items-center max-w-screen">
-        <div>
-          <h1
-            class="text-4xl md:text-6xl font-black text-slate-900 mb-8 text-center md:text-left"
+    <div class="flex flex-row h-full items-stretch">
+      <div class="flex flex-col max-w-2xl justify-center h-full p-4">
+        <h1
+          class="text-4xl md:text-6xl font-black text-slate-900 mb-8 leading-relaxed"
+        >
+          Welcome to your Intellectual Space
+        </h1>
+        <p class="mb-8 leading-relaxed font-medium text-md text-slate-800">
+          Intellectual Space is a place for learning, networking, and
+          innovation. Our mission is to give access and guidance to all
+          communities, regardless of fiscal or social capital. We present the
+          tools and resources to allow our users to connect with other members
+          with a variety of skills, knowledge, trades, and interests, so that
+          they may develop a strong network and community, presenting job
+          opportunities, networking opportunities, and much more!
+        </p>
+        <div class="flex flex-row flex-wrap items-center gap-6 justify-start">
+          <button
+            @click="$router.push({ name: 'register' })"
+            type="button"
+            class="text-white justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-8 py-4 text-center flex items-center shadow-lg shadow-blue-500/40 gap-x-4"
           >
-            Welcome to your Intellectual Space
-          </h1>
-          <p
-            class="max-w-2xl mb-8 leading-relaxed text-slate-800 text-center md:text-left"
-          >
-            Intellectual Space is a place for learning, networking, and
-            innovation. Our mission is to give access and guidance to all
-            communities, regardless of fiscal or social capital. We present the
-            tools and resources to allow our users to connect with other members
-            with a variety of skills, knowledge, trades, and interests, so that
-            they may develop a strong network and community, presenting job
-            opportunities, networking opportunities, and much more!
-          </p>
-          <div
-            class="flex flex-row items-center gap-x-6 justify-center md:justify-start"
-          >
-            <button
-              @click="$router.push({ name: 'register' })"
-              type="button"
-              class="text-white flex-1 justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-6 py-3.5 text-center flex items-center gap-x-4"
+            Start Connecting Today
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
             >
-              Start Connecting Today
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </button>
-            <button
-              type="button"
-              @click="$router.push({ name: 'profile' })"
-              class="px-6 py-3.5 text-sm h-full font-medium text-slate-900 focus:outline-none bg-white rounded-lg border border-slate-200 hover:bg-slate-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-slate-200"
-            >
-              See my profile
-            </button>
-          </div>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            @click="$router.push({ name: 'profile' })"
+            class="px-8 py-4 text-lg h-full font-medium text-blue-700 bg-transparent border-2 border-blue-700 rounded-lg hover:bg-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200"
+          >
+            Explore Our Community
+          </button>
         </div>
+      </div>
+      <div class="flex-1 h-full">
         <img
-          src="@/assets/images/index-hero.svg"
-          class="hidden md:flex w-full floating drop-shadow-lg"
+          class="relative h-full w-full object-cover z-0"
+          src="https://images.unsplash.com/photo-1569292567777-e5d61a759322?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1467&q=80"
+          alt="Intellectual Space"
         />
       </div>
     </div>

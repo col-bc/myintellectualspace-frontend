@@ -1,11 +1,9 @@
 <script>
 import { useRoute } from "vue-router";
 import MeetingComponent from "@/components/MeetingComponent.vue";
-import NavbarComponent from "@/components/NavbarComponent.vue";
 
 export default {
   components: {
-    NavbarComponent,
     MeetingComponent,
   },
   setup() {
@@ -33,8 +31,15 @@ export default {
 
 <template>
   <div class="min-h-screen">
-    <NavbarComponent />
-    <div class="p-4 text-blue-700 bg-blue-100 flex items-center">
+    <div
+      class="px-4 py-1.5 text-black bg-gray-100 flex items-center justify-between"
+    >
+      <button
+        type="button"
+        class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        End Meeting
+      </button>
       <p>
         Meeting ID:
         <span
@@ -59,6 +64,30 @@ export default {
           </svg>
         </span>
       </p>
+      <button
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-share w-6 h-6"
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <circle cx="6" cy="12" r="3" />
+          <circle cx="18" cy="6" r="3" />
+          <circle cx="18" cy="18" r="3" />
+          <line x1="8.7" y1="10.7" x2="15.3" y2="7.3" />
+          <line x1="8.7" y1="13.3" x2="15.3" y2="16.7" />
+        </svg>
+      </button>
     </div>
     <MeetingComponent
       class="flex-1"
