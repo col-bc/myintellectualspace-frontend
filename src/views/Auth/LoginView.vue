@@ -78,14 +78,9 @@ export default {
 
     <form
       @submit.prevent="handleFormSubmit()"
-      class="max-w-2xl mx-auto p-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
+      class="max-w-xl mx-auto p-6 mt-12 rounded-xl shadow border bg-white border-gray-200 flex flex-col gap-y-6"
     >
       <div>
-        <img
-          src="@/assets/images/login.svg"
-          alt="Register"
-          class="w-full max-h-64 mx-auto mb-6"
-        />
         <h1 class="text-3xl text-center font-bold text-slate-900 pb-12">
           Login to Your Intellectual Space
         </h1>

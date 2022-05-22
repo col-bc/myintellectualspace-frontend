@@ -14,7 +14,7 @@ export const useStore = defineStore('main', {
     getUserData: state => state.user,
     getToken: state => state.token,
     isDataStale: state => new Date() - state.lastFetch > 60000,
-    posts: state => state.getUserData.post_ids,
+    getPosts: state => state.getUserData.post_ids,
     bearerToken: state => `Bearer ${state.token}`
   },
   actions: {
@@ -23,19 +23,20 @@ export const useStore = defineStore('main', {
       this.lastFetch = new Date()
     },
     async fetchUserData(force = false) {
-      if (this.isDataStale || force) {
-        const response = await axios.get("http://localhost:5000/api/user/", {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
+      var self = this;
+      if (force || this.isDataStale) {
+        await axios.get("http://localhost:5000/api/user/me", {
+          headers: { Authorization: `Bearer ${this.token}`, },
+        }).then((res) => {
+          self.setUserData(res.data);
+          self.lastFetch = new Date();
+          return res.data;
+        }).catch((err) => {
+          if (err.response.status === 401) {
+            this.logout()
+            return null
+          }
         })
-        if (response.status === 401) {
-          this.logout()
-          return false
-        }
-        this.setUserData(response.data);
-        this.lastFetch = new Date();
-        return true
       }
     },
     setToken(payload) {

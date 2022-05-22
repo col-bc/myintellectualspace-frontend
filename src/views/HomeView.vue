@@ -51,6 +51,7 @@ export default {
         </svg>
       </button>
     </div>
+
     <div class="flex flex-row h-full items-stretch">
       <div class="flex flex-col max-w-2xl justify-center h-full p-4">
         <h1

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useStore } from '@/store'
-import axios from 'axios';
 
 const routes = [
   //Index Page
@@ -10,9 +9,8 @@ const routes = [
     component: () => import('@/views/HomeView.vue')
   },
 
-  // ###############
-  //  Social Routes
-  // ###############
+  // Social Routes
+  // #############
 
   //Social Hub Home
   {
@@ -25,7 +23,7 @@ const routes = [
       store.fetchUserData({ force: true })
       if (to.name === 'social') return next({ name: 'social-details' })
       if (store.isLoggedIn) return next()
-      else return next()
+      else return next({ name: 'login' })
     },
     children: [
       //Profile Details
@@ -61,7 +59,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       let store = useStore()
       if (store.isLoggedIn) return next()
-      else return next()
+      else return next({ name: 'login' })
     }
   },
   // Host meeting
@@ -72,31 +70,8 @@ const routes = [
     beforeEnter: (to, from, next) => {
       let store = useStore()
       if (store.isLoggedIn) return next()
-      else return next()
+      else return next({ name: 'login' })
     },
-  },
-  // Join meeting
-  {
-    path: '/meetings/join/:meetingId',
-    name: 'join-meeting-prefetch',
-    component: () => { return undefined },
-    beforeEnter: (to, from, next) => {
-      if (to.params.meetingId) {
-        let store = useStore();
-        axios.get("http://localhost:5000/api/meetings/jwt", {
-          headers: {
-            Authorization: store.bearerToken,
-          },
-        }).then((r) => {
-          return next({
-            name: 'join-meeting', params: {
-              meetingId: to.params.meetingId,
-              meetingJWT: r.data.jwt,
-            }
-          })
-        })
-      }
-    }
   },
   // Join meeting by meetingId and meetingJWT
   {
@@ -106,7 +81,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       let store = useStore()
       if (store.isLoggedIn) return next()
-      else return next()
+      else return next({ name: 'login' })
     },
   },
 

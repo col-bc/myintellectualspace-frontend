@@ -7,13 +7,6 @@ import { useRouter, useRoute } from "vue-router";
 import { ref, watch } from "vue";
 import axios from "axios";
 
-/*
- * TODO:
- * [ ] Add tab content to be a router-view
- * [ ] Move each tab into its own view
- * [ ] Update the router to implement the tabs
- */
-
 export default {
   name: "ProfileParentView",
   components: {
@@ -22,7 +15,6 @@ export default {
   },
 
   setup() {
-    const tasks = ref([]);
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
@@ -38,8 +30,8 @@ export default {
         behavior: "smooth",
       });
     }
-    // auto close alert after 7 seconds
     watch(
+      // auto close alert after 7 seconds
       () => alertModel.value.show,
       (newVal) => {
         if (newVal) {
@@ -85,11 +77,10 @@ export default {
     };
 
     return {
-      store,
       router,
       route,
-      tasks,
       alertModel,
+      user: store.getUserData,
       profilePicture,
       updateProfilePic,
       onProfilePicInputChange,
@@ -180,13 +171,17 @@ export default {
       <h1
         class="w-full text-gray-900 font-bold text-4xl text-left mb-8 lg:mb-8"
       >
-        {{ store.user.first_name }} {{ store.user.last_name }}
+        {{ user.first_name }} {{ user.last_name }}
       </h1>
       <!-- Profile Picture / Name / Settings Button -->
       <div class="flex flex-col items-center justify-center">
         <img
           class="bg-white rounded-xl aspect-square w-full h-full object-center object-cover shadow lg:shadow-xl border border-gray-200 mb-4"
-          :src="store.user.avatar_uri ? store.user.avatar_uri : defaultAvatar"
+          :src="
+            !!user.avatar_uri
+              ? user.avatar_uri
+              : defaultAvatar
+          "
         />
         <InputModalComponent
           buttonText="Change Profile Picture"
