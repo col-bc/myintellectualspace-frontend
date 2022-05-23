@@ -2,12 +2,14 @@
 import { defineComponent, reactive } from "vue";
 import axios from "axios";
 import { useStore } from "@/store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "PostComponent",
 
   setup() {
     const store = useStore();
+    const router = useRouter();
     const formModel = reactive({
       content: "",
       location: "",
@@ -34,21 +36,16 @@ export default defineComponent({
         "file",
         document.querySelector("#new-post-image").files[0]
       );
-      // log the form data key/vales to the console
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+
       axios
-        .post("http://localhost:5000/api/user/posts", formData, {
+        .post("http://localhost:5000/api/user/post/", formData, {
           headers: {
-            Authorization: `Bearer ${store.getToken}`,
+            Authorization: store.bearerToken,
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
-          console.log(res.data);
-          alertModel.show = true;
-          alertModel.message = res.data.message;
+        .then(() => {
+          router.push({ name: "social-feed" });
         })
         .catch((err) => {
           alertModel.show = true;
@@ -76,7 +73,7 @@ export default defineComponent({
     };
 
     return {
-      user: store.user,
+      user: store.getUserData,
       formModel,
       handleSubmit,
       setLocation,
