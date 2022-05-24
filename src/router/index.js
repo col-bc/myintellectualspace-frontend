@@ -14,35 +14,25 @@ const routes = [
 
   //Social Hub Home
   {
-    path: '/social',
-    name: 'social',
+    path: '/social/:handle',
+    name: 'social-handle',
     component: () => import('@/views/Profile/ProfileIndex.vue'),
     beforeEnter: (to, from, next) => {
       // Check if user is logged in and fetch data if so
       let store = useStore()
-      store.fetchUserData({ force: true })
-      if (to.name === 'social') return next({ name: 'social-details' })
-      if (store.isLoggedIn) return next()
+      store.fetchUserData()
+      if (store.isLoggedIn) {
+        to.params.handle = to.params.handle || store.user.handle
+        return next()
+      }
       else return next({ name: 'login' })
     },
     children: [
-      //Profile Details
-      {
-        path: '',
-        name: 'social-details',
-        component: () => import('@/views/Profile/ProfileDetails.vue')
-      },
       //Profile feed
       {
-        path: 'feed',
-        name: 'social-feed',
+        path: '',
+        name: 'social-index',
         component: () => import('@/views/Profile/ProfileFeed.vue')
-      },
-      //New Post
-      {
-        path: 'post',
-        name: 'social-post',
-        component: () => import('@/views/Profile/ProfileNewPost.vue')
       },
     ],
   },
@@ -103,7 +93,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       // Bypass login if already logged in
       let store = useStore()
-      if (store.isLoggedIn) return next({ name: 'social-details' })
+      if (store.isLoggedIn) return next({ name: 'social-index' })
       else return next()
     }
   },

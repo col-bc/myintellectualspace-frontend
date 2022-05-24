@@ -52,7 +52,8 @@ export default defineComponent({
           <circle cx="18.5" cy="18.5" r="1.5" />
           <circle cx="8.5" cy="15.5" r="4.5" />
         </svg>
-        <span class="font-bold text-gray-900 hidden lg:inline-flex"
+        <span
+          class="font-bold text-gray-900 inline-flex md:hidden lg:inline-flex"
           >Intellectual Space</span
         >
       </router-link>
@@ -88,12 +89,13 @@ export default defineComponent({
           </li>
           <li>
             <router-link
-              :to="{ name: 'social-details' }"
+              :to="{
+                name: 'social-index',
+                params: { handle: store.user.handle },
+              }"
               class="block py-4 px-3 text-gray-900 hover:bg-gray-100"
               :class="{
-                'border-b-2 border-blue-700':
-                  currentRoute === 'profile' ||
-                  currentRoute === 'social-details',
+                'border-b-2 border-blue-700': currentRoute === 'social',
               }"
             >
               Social Hub</router-link
@@ -168,16 +170,23 @@ export default defineComponent({
             <line x1="21" y1="21" x2="15" y2="15" />
           </svg>
         </button>
-        <!-- Explore button: if logged in -->
+        <!-- Profile button: if logged in -->
         <button
-          @click="$router.push({ name: 'social' })"
+          @click="
+            $router.push({
+              name: 'social-index',
+              params: {
+                handle: store.user.handle,
+              },
+            })
+          "
           v-show="store.isLoggedIn"
           type="button"
           class="inline-flex items-center p-2 text-sm text-gray-900 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="icon icon-tabler icon-tabler-brand-safari w-6 h-6"
+            class="icon icon-tabler icon-tabler-user w-6 h-6"
             width="44"
             height="44"
             viewBox="0 0 24 24"
@@ -188,8 +197,8 @@ export default defineComponent({
             stroke-linejoin="round"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <polyline points="8 16 10 10 16 8 14 14 8 16" />
-            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="7" r="4" />
+            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
           </svg>
         </button>
         <!-- Mobile menu button -->

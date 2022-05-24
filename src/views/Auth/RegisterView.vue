@@ -11,6 +11,7 @@ export default {
     const formModel = ref({
       firstName: "",
       lastName: "",
+      handle: "",
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -45,6 +46,7 @@ export default {
       if (
         !formModel.value.firstName ||
         !formModel.value.lastName ||
+        !formModel.value.handle ||
         !formModel.value.email ||
         !formModel.value.password ||
         !formModel.value.passwordConfirmation
@@ -90,6 +92,7 @@ export default {
       const payload = {
         first_name: formModel.value.firstName,
         last_name: formModel.value.lastName,
+        handle: formModel.value.handle,
         email: formModel.value.email,
         password: formModel.value.password,
         education_level: formModel.value.educationLevel,
@@ -97,9 +100,7 @@ export default {
       };
       axios
         .post("http://localhost:5000/api/auth/register", payload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         })
         .then((response) => {
           console.log(response);
@@ -203,6 +204,38 @@ export default {
           />
         </div>
       </div>
+      <!-- Handle -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-slate-900"
+          >Your handle</label
+        >
+        <div class="relative">
+          <span class="absolute inset-y p-2.5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-at w-5 h-5"
+              width="44"
+              height="44"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <circle cx="12" cy="12" r="4" />
+              <path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" />
+            </svg>
+          </span>
+          <input
+            type="text"
+            v-model="formModel.handle"
+            class="flex-1 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pl-10"
+            placeholder="bilbo_baggins"
+          />
+        </div>
+      </div>
       <!-- Email -->
       <div>
         <label for="email" class="block mb-2 text-sm font-medium text-slate-900"
@@ -212,7 +245,7 @@ export default {
           type="email"
           v-model="formModel.email"
           class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="bilbo@thefellowship.com"
+          placeholder="bbaggins@bagend.com"
         />
       </div>
       <!-- Password -->

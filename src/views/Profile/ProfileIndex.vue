@@ -1,35 +1,61 @@
 <script>
 import NavbarComponent from "@/components/NavbarComponent.vue";
-import InputModalComponent from "@/components/InputModalComponent.vue";
+import ProfileDetailsView from "@/components/UserDetailsComponent.vue";
 import { useStore } from "@/store";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
+import NewPostComponent from "@/components/NewPostComponent.vue";
+import PostComponent from "@/components/PostComponent.vue";
 
 export default {
-  name: "ProfileParentView",
+  name: "ProfileIndex",
   components: {
     NavbarComponent,
-    InputModalComponent,
+    ProfileDetailsView,
+    NewPostComponent,
+    PostComponent,
   },
 
   setup() {
     const store = useStore();
-    const router = useRouter();
     const route = useRoute();
-
+    const isLoading = ref(true);
+    const user = ref({});
+    const posts = ref({});
+    const currentTab = ref("feed");
     const alertModel = ref({
       show: false,
       message: "",
       type: "", // success, error, warning
     });
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+
+    onMounted(() => {
+      const { handle } = route.params;
+      // Fetch user's data
+      axios
+        .get(`http://localhost:5000/api/user/handle/${handle}`, {
+          headers: { Authorization: store.bearerToken },
+        })
+        .then((res) => {
+          user.value = res.data;
+          let id = res.data.id;
+
+          // fetch user's posts
+          axios
+            .get(`http://localhost:5000/api/user/post/by-user/${id}`, {
+              headers: { Authorization: store.bearerToken },
+            })
+            .then((res) => {
+              posts.value = res.data.posts;
+              isLoading.value = false;
+            });
+        })
+        .catch((ex) => {
+          console.log(ex);
+        });
+    });
     watch(
       // auto close alert after 7 seconds
       () => alertModel.value.show,
@@ -43,48 +69,23 @@ export default {
       }
     );
 
-    const profilePicture = ref(null);
-    const updateProfilePic = () => {
-      // post multipart form data to update profile picture
-      const formData = new FormData();
-      formData.append("file", profilePicture.value);
-      axios
-        .post("http://localhost:5000/api/user/set-avatar", formData, {
-          headers: {
-            Authorization: `Bearer ${store.getToken}`,
-          },
-        })
-        .then((res) => {
-          store.setUserData(res.data.user);
-          alertModel.value = {
-            show: true,
-            message: "Profile picture updated successfully",
-            type: "success",
-          };
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    const profilePicturePreview = ref(null);
-    const onProfilePicInputChange = (e) => {
-      profilePicture.value = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        profilePicturePreview.value = e.target.result;
-      };
-      reader.readAsDataURL(profilePicture.value);
-    };
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+
+    // function alertCallback(alert) {
+    //   alertModel.value = alert;
+    //   alert.show = true;
+    // }
 
     return {
-      router,
-      route,
       alertModel,
-      user: store.getUserData,
-      profilePicture,
-      updateProfilePic,
-      onProfilePicInputChange,
-      profilePicturePreview,
+      user,
+      posts,
+      currentTab,
       defaultAvatar: require("@/assets/images/profile-picture-default.png"),
     };
   },
@@ -93,6 +94,7 @@ export default {
 
 <template>
   <NavbarComponent />
+
   <!-- Alert -->
   <div
     v-show="alertModel.show"
@@ -164,201 +166,91 @@ export default {
   </div>
 
   <div
-    class="flex flex-col mx-auto md:flex-row my-8 px-4 lg:px-8 lg:space-x-8 md:space-x-4"
+    class="flex flex-col mx-auto md:flex-row my-8 px-4 lg:px-8 lg:space-x-12 md:space-x-4"
   >
     <!-- Left Col -->
     <div class="flex flex-col w-full md:w-1/3">
-      <h1
-        class="w-full text-gray-900 font-bold text-4xl text-left mb-8 lg:mb-8"
-      >
+      <h2 class="text-4xl font-bold text-center md:text-left mb-9">
         {{ user.first_name }} {{ user.last_name }}
-      </h1>
-      <!-- Profile Picture / Name / Settings Button -->
-      <div class="flex flex-col items-center justify-center">
-        <img
-          class="bg-white rounded-xl aspect-square w-full h-full object-center object-cover shadow lg:shadow-xl border border-gray-200 mb-4"
-          :src="
-            !!user.avatar_uri
-              ? user.avatar_uri
-              : defaultAvatar
-          "
-        />
-        <InputModalComponent
-          buttonText="Change Profile Picture"
-          :options="['Upload Picture', 'Cancel']"
-          :title="'Upload Profile Picture'"
-          :show="false"
-        >
-          <form
-            @submit.prevent="updateProfilePic()"
-            enctype="multipart/form-data"
-            id="profile-pic-form"
-          >
-            <div class="flex justify-center items-center w-full">
-              <label
-                for="dropzone-file"
-                class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer"
-              >
-                <div
-                  class="flex flex-col justify-center items-center pt-5 pb-6"
-                >
-                  <svg
-                    v-if="!profilePicturePreview"
-                    class="mb-3 w-10 h-10 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    ></path>
-                  </svg>
-                  <img
-                    v-else
-                    :src="profilePicturePreview"
-                    class="max-h-64 object-cover object-center"
-                  />
-                  <p class="mb-2 text-sm text-gray-5000">
-                    <span class="font-semibold">Click to upload</span> or drag
-                    and drop
-                  </p>
-                  <p class="text-xs text-gray-500">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
-                </div>
-                <input
-                  id="dropzone-file"
-                  @change="onProfilePicInputChange($event)"
-                  type="file"
-                  class="hidden"
-                />
-              </label>
-            </div>
-            <button
-              type="submit"
-              class="bg-transparent text-gray-600 hover:bg-gray-300 hover:text-gray-900 focus:ring-2 focus:ring-gray-500 focus:outline-none rounded p-2 ml-auto"
-            >
-              Change
-            </button>
-          </form>
-        </InputModalComponent>
-      </div>
-    </div>
-    <!-- Right Col -->
-    <div class="flex flex-col md:w-2/3">
+      </h2>
+
+      <img
+        class="bg-white rounded-xl aspect-square w-full object-center object-cover shadow border border-gray-200 mb-10"
+        :src="!!user.avatar_uri ? user.avatar_uri : defaultAvatar"
+      />
       <button
         type="button"
-        @click="router.push({ name: 'social-post' })"
-        class="text-white w-full md:w-52 my-8 md:mt-0 ml-auto bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm shadow px-5 py-2.5"
+        class="text-white justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-8 py-2 text-center flex items-center shadow-lg shadow-blue-500/40 hover:shadow-blue-700/60 gap-x-4 mb-10 w-full transition duration-200 ease-in-out"
       >
-        New Post
+        Send Friend Request
+        <img src="@/assets/icons/hand-waving.svg" class="w-8 h-8" />
       </button>
+      <ProfileDetailsView class="flex-none" />
+    </div>
 
-      <div class="p-4 bg-white rounded-xl border border-gray-200 shadow">
+    <!-- Right Col -->
+    <div class="flex flex-col md:w-2/3">
+      <div>
         <!-- Tabs -->
-        <div class="border-b-2 border-gray-200 dark:border-gray-700 mb-6">
-          <ul
-            class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-800"
-          >
+        <div
+          class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mb-6"
+        >
+          <ul class="flex flex-wrap -mb-px">
             <li class="mr-2">
-              <a
-                @click="router.push({ name: 'social-details' })"
-                class="inline-flex p-4 rounded-full mb-1 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-                :class="{
-                  'bg-blue-200 hover:bg-blue-200 shadow-sm':
-                    route.name === 'social-details',
-                }"
+              <button
+                @click="currentTab = 'feed'"
+                :class="[
+                  currentTab === 'feed'
+                    ? 'inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500'
+                    : 'inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300',
+                ]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-id w-5 h-5 mr-2"
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <rect x="3" y="4" width="18" height="16" rx="3" />
-                  <circle cx="9" cy="10" r="2" />
-                  <line x1="15" y1="8" x2="17" y2="8" />
-                  <line x1="15" y1="12" x2="17" y2="12" />
-                  <line x1="7" y1="16" x2="17" y2="16" />
-                </svg>
-                Profile
-              </a>
-            </li>
-            <li class="mr-2">
-              <a
-                @click="router.push({ name: 'social-feed' })"
-                class="inline-flex p-4 rounded-full mb-1 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-                :class="{
-                  'bg-blue-200 hover:bg-blue-200 shadow-sm':
-                    route.name === 'social-feed' ||
-                    route.name === 'social-post',
-                }"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-rss w-5 h-5 mr-2"
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <circle cx="5" cy="19" r="1" />
-                  <path d="M4 4a16 16 0 0 1 16 16" />
-                  <path d="M4 11a9 9 0 0 1 9 9" />
-                </svg>
                 Feed
-              </a>
+              </button>
             </li>
             <li class="mr-2">
-              <a
-                @click="router.push({ name: 'social-connections' })"
-                class="inline-flex p-4 rounded-full mb-1 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
-                :class="{
-                  'bg-blue-200 hover:bg-blue-200 shadow-sm':
-                    route.name === 'social-connections',
-                }"
+              <button
+                @click="currentTab = 'connections'"
+                :class="[
+                  currentTab === 'connections'
+                    ? 'inline-block p-4 text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500'
+                    : 'inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300',
+                ]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon icon-tabler icon-tabler-users w-5 h-5 mr-2"
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                </svg>
                 Connections
-              </a>
+              </button>
             </li>
           </ul>
         </div>
+
         <!-- Tab Content -->
-        <router-view />
+        <!-- Loading State -->
+        <div v-if="isLoading" class="text-center py-12">
+          <svg
+            role="status"
+            class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+          <h5 class="text-gray-500 font-base text-lg mt-12">Loading...</h5>
+        </div>
+        <!-- Feed Tab -->
+        <div v-if="currentTab === 'feed' && !isLoading">
+          <NewPostComponent class="mb-12" />
+          <div v-for="p of posts" :key="p">
+            <PostComponent :post="p" class="mb-12" />
+          </div>
+        </div>
       </div>
     </div>
   </div>

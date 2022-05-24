@@ -68,32 +68,19 @@ export default {
           they may develop a strong network and community, presenting job
           opportunities, networking opportunities, and much more!
         </p>
-        <div class="flex flex-row flex-wrap items-center gap-6 justify-start">
+        <div class="flex flex-row items-center gap-6 justify-start">
           <button
             @click="$router.push({ name: 'register' })"
             type="button"
-            class="text-white justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-8 py-4 text-center flex items-center shadow-lg shadow-blue-500/40 gap-x-4"
+            class="flex-1 text-white justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-8 py-2.5 text-center flex items-center shadow-lg shadow-blue-500/40 hover:shadow-blue-700/60 gap-x-6 transition duration-200 ease-in-out"
           >
-            Start Connecting Today
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+            <img src="@/assets/icons/rocket-ship.svg" class="w-12 h-12" />
+            Get Started
           </button>
           <button
             type="button"
             @click="$router.push({ name: 'profile' })"
-            class="px-8 py-4 text-lg h-full font-medium text-blue-700 bg-transparent border-2 border-blue-700 rounded-lg hover:bg-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200"
+            class="px-8 py-4 text-lg h-full font-medium text-blue-700 bg-transparent border-2 border-blue-700 rounded-lg hover:bg-white focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 transition duration-200 ease-in-out"
           >
             Explore Our Community
           </button>

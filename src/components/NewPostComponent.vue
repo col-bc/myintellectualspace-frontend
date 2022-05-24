@@ -45,7 +45,7 @@ export default defineComponent({
           },
         })
         .then(() => {
-          router.push({ name: "social-feed" });
+          router.push({ name: "social" });
         })
         .catch((err) => {
           alertModel.show = true;
@@ -85,7 +85,7 @@ export default defineComponent({
 
 <template>
   <form @submit.prevent="handleSubmit()" enctype="multipart/form-data">
-    <div class="mb-4 w-full rounded-lg border border-gray-300">
+    <div class="bg-white mb-4 w-full rounded-lg border border-gray-200 shadow">
       <!-- Alert -->
       <div
         v-show="alertModel.show"

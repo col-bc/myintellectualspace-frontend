@@ -22,6 +22,7 @@ export default defineComponent({
       default: () => ["OK", "Cancel"],
     },
   },
+
   setup(props, { emit }) {
     const closeDialog = (selection) => {
       emit("onClose", selection);
@@ -41,7 +42,12 @@ export default defineComponent({
 
 <template>
   <div>
-    <button @click="show = true" type="button" data-modal-toggle="choice-modal">
+    <button
+      @click="show = true"
+      type="button"
+      data-modal-toggle="choice-modal"
+      class="appearance-none"
+    >
       <slot></slot>
     </button>
 
@@ -49,7 +55,7 @@ export default defineComponent({
       <!-- Overlay -->
       <div
         v-show="show"
-        class="fixed top-0 left-0 w-screen h-screen bg-gray-900 opacity-60"
+        class="fixed top-0 left-0 w-screen h-screen bg-gray-900 opacity-60 z-40"
       ></div>
       <div
         v-show="show"
@@ -82,7 +88,7 @@ export default defineComponent({
             </button>
             <div class="p-6 text-center">
               <svg
-                class="mx-auto mb-4 w-14 h-14 text-gray-600"
+                class="mx-auto mb-4 w-14 h-14 text-gray-700"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -95,7 +101,7 @@ export default defineComponent({
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <h3 class="mb-5 text-lg font-normal text-gray-900">
+              <h3 class="mb-5 text-lg font-medium text-gray-800">
                 {{ props.title }}
               </h3>
               <div class="flex flex-row items-center space-4 justify-center">

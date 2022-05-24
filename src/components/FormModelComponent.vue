@@ -2,7 +2,7 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-  name: "InputModalComponent",
+  name: "FormModelComponent",
   emits: ["onClose"],
 
   props: {
